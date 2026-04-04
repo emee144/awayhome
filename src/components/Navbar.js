@@ -8,7 +8,8 @@ const navLinks = [
   { label: "Buy", href: "/buy" },
   { label: "Hotels", href: "/hotels" },
   { label: "List Property", href: "/list-property" },
-  { label: "Contact", href: "/contact" },
+  { label: "Sign In", href: "/login" },
+  { label: "Register", href: "/signup"}
 ];
 
 export default function Navbar() {
