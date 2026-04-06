@@ -440,19 +440,6 @@ export default function LoginPage() {
                 <span /><small>or continue with</small><span />
               </div>
 
-              {/* Social logins */}
-              <div className="lg-socials">
-                <a href="/api/auth/google" className="lg-social-btn">
-                  <svg viewBox="0 0 24 24" width="18" height="18">
-                    <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0112 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115z"/>
-                    <path fill="#34A853" d="M16.04 18.013A7.032 7.032 0 0112 19.09c-2.93 0-5.44-1.777-6.66-4.354l-4.048 3.102C3.248 21.37 7.28 24 12 24c2.933 0 5.735-.89 7.932-2.542l-3.892-3.445z"/>
-                    <path fill="#4A90E2" d="M19.932 21.458C22.042 19.477 23.4 16.617 23.4 12.5c0-.75-.1-1.573-.26-2.318H12v4.636h6.433c-.31 1.573-1.18 2.91-2.44 3.794l3.939 3.846z"/>
-                    <path fill="#FBBC05" d="M5.34 14.736A7.11 7.11 0 014.909 12c0-.946.166-1.856.457-2.703L1.24 6.65A11.935 11.935 0 000 12c0 1.92.447 3.73 1.24 5.338l4.1-2.602z"/>
-                  </svg>
-                  Continue with Google
-                </a>
-              </div>
-
               {/* Sign up link */}
               <p className="lg-signup">
                 Don't have an account?{" "}
