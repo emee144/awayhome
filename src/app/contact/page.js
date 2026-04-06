@@ -393,7 +393,7 @@ export default function ContactPage() {
         <h1>Get in <em>Touch</em></h1>
         <p className="contact-hero-sub">
           Have a question about a listing, need help posting your property, or just want to say hello?
-          Our team is happy to assist, typically within 1 hour.
+          Our team is happy to assist as soon as possible.
         </p>
       </div>
 
@@ -438,7 +438,7 @@ export default function ContactPage() {
                   <div className="info-card-value">
                     <a href="mailto:contact@awayhome.com">contact@awayhome.com</a>
                   </div>
-                  <div className="info-card-note">We reply within 24 hours</div>
+                  <div className="info-card-note">We reply immediately</div>
                 </div>
               </div>
 
