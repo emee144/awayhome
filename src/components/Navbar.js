@@ -8,19 +8,39 @@ const navLinks = [
   { label: "Buy", href: "/buy" },
   { label: "Hotels", href: "/hotels" },
   { label: "List Property", href: "/list-property" },
-  { label: "Sign In", href: "/login" },
-  { label: "Register", href: "/signup"}
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // ✅ AUTH STATE
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ Scroll effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // ✅ Fetch logged-in user
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then(res => res.json())
+      .then(data => {
+        setUser(data.user);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  // ✅ Logout
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.reload();
+  }
 
   return (
     <>
@@ -83,7 +103,8 @@ export default function Navbar() {
           margin: 0;
           padding: 0;
         }
-        .nav-links a {
+        .nav-links a:not(.nav-cta), 
+.nav-links button {
           font-family: 'DM Sans', sans-serif;
           font-size: 0.9rem;
           font-weight: 500;
@@ -91,9 +112,12 @@ export default function Navbar() {
           text-decoration: none;
           letter-spacing: 0.02em;
           position: relative;
+          background: none;
+          border: none;
+          cursor: pointer;
           transition: color 0.2s;
         }
-        .nav-links a::after {
+        .nav-links a::after, .nav-links button::after {
           content: '';
           position: absolute;
           bottom: -4px;
@@ -103,10 +127,12 @@ export default function Navbar() {
           background: #C9A84C;
           transition: width 0.25s ease;
         }
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links button:hover {
           color: #C9A84C;
         }
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links button:hover::after {
           width: 100%;
         }
         .nav-cta {
@@ -158,26 +184,18 @@ export default function Navbar() {
           padding: 1rem 2rem 1.5rem;
         }
         .mobile-menu.open { display: flex; }
-        .mobile-menu a {
+        .mobile-menu a, .mobile-menu button {
           font-family: 'DM Sans', sans-serif;
           font-size: 1rem;
           color: rgba(255,255,255,0.85);
           text-decoration: none;
           padding: 14px 0;
           border-bottom: 1px solid rgba(255,255,255,0.07);
-          transition: color 0.2s;
-        }
-        .mobile-menu a:hover { color: #C9A84C; }
-        .mobile-menu a:last-child {
-          margin-top: 1rem;
+          background: none;
           border: none;
-          background: linear-gradient(135deg, #C9A84C, #E8C878);
-          color: #0A0E1A;
-          font-weight: 600;
-          padding: 13px 22px;
-          border-radius: 8px;
-          text-align: center;
+          text-align: left;
         }
+        .mobile-menu a:hover, .mobile-menu button:hover { color: #C9A84C; }
 
         @media (max-width: 900px) {
           .nav-links { display: none; }
@@ -185,22 +203,18 @@ export default function Navbar() {
         }
       `}</style>
 
-      <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap"
-        rel="stylesheet"
-      />
-
       <nav className="navbar">
         <div className="nav-inner">
           <Link href="/" className="nav-logo">
             <div className="logo-icon">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 24 24">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
               </svg>
             </div>
             <span className="logo-text">Away<span>Home</span></span>
           </Link>
 
+          {/* DESKTOP */}
           <ul className="nav-links">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -211,12 +225,25 @@ export default function Navbar() {
                 )}
               </li>
             ))}
+
+            {!loading && (
+              user ? (
+                <>
+                  <li><Link href="/dashboard">Dashboard</Link></li>
+                  <li><button onClick={handleLogout}>Logout</button></li>
+                </>
+              ) : (
+                <>
+                  <li><Link href="/login">Sign In</Link></li>
+                  <li><Link href="/signup">Register</Link></li>
+                </>
+              )
+            )}
           </ul>
 
           <button
             className={`hamburger ${menuOpen ? "open" : ""}`}
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
           >
             <span />
             <span />
@@ -224,12 +251,27 @@ export default function Navbar() {
           </button>
         </div>
 
+        {/* MOBILE */}
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
               {link.label}
             </Link>
           ))}
+
+          {!loading && (
+            user ? (
+              <>
+                <Link href="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+                <button onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" onClick={() => setMenuOpen(false)}>Sign In</Link>
+                <Link href="/signup" onClick={() => setMenuOpen(false)}>Register</Link>
+              </>
+            )
+          )}
         </div>
       </nav>
     </>

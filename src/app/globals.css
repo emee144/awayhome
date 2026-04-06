@@ -368,3 +368,28 @@ h1, h2, h3 {
     font-size: 3rem;
   }
 }
+
+
+
+
+.ls-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.ls-contact-item svg {
+  color: #C9A84C;
+  flex-shrink: 0;
+}
+
+.ls-link {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ls-link:hover {
+  opacity: 0.8;
+}

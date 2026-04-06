@@ -6,16 +6,15 @@ import Footer from "@/components/Footer";
 
 export default function SignupPage() {
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    name: "",
     phone: "",
+    email: "",
     password: "",
     confirmPassword: "",
     role: "user", // user | agent | hotel
     agree: false,
   });
-  const [status, setStatus]   = useState("idle"); // idle | loading | success | error
+  const [status, setStatus]   = useState("idle"); 
   const [message, setMessage] = useState("");
   const [showPass, setShowPass]       = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -59,18 +58,20 @@ export default function SignupPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: form.firstName.trim(),
-          lastName:  form.lastName.trim(),
-          email:     form.email.trim().toLowerCase(),
-          phone:     form.phone.trim(),
-          password:  form.password,
-          role:      form.role,
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          email: form.email.trim().toLowerCase(),
+          password: form.password,
+          confirmPassword: form.confirmPassword, 
+          agree: form.agree,
+          role: form.role,
         }),
       });
       const data = await res.json();
+      console.log(data);
       if (!res.ok) {
         setStatus("error");
-        setMessage(data.error || "Something went wrong. Please try again.");
+        setMessage(data.message || "Something went wrong");
       } else {
         setStatus("success");
         setMessage(data.message || "Account created! Please check your email to verify.");
@@ -414,25 +415,14 @@ export default function SignupPage() {
                   {/* Name row */}
                   <div className="su-row">
                     <div className="su-field">
-                      <label htmlFor="firstName">First Name</label>
+                      <label htmlFor="name">Name</label>
                       <div className="su-input-wrap">
                         <svg className="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
                           <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
                         </svg>
-                        <input id="firstName" name="firstName" type="text" className="su-input"
-                          placeholder="John" value={form.firstName} onChange={handleChange}
+                        <input id="name" name="name" type="text" className="su-input"
+                          placeholder="John" value={form.name} onChange={handleChange}
                           required autoComplete="given-name" disabled={status === "loading"} />
-                      </div>
-                    </div>
-                    <div className="su-field">
-                      <label htmlFor="lastName">Last Name</label>
-                      <div className="su-input-wrap">
-                        <svg className="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
-                          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                        </svg>
-                        <input id="lastName" name="lastName" type="text" className="su-input"
-                          placeholder="Doe" value={form.lastName} onChange={handleChange}
-                          required autoComplete="family-name" disabled={status === "loading"} />
                       </div>
                     </div>
                   </div>
@@ -559,7 +549,7 @@ export default function SignupPage() {
                 </form>
 
                 <div className="su-divider" style={{ margin: "1.5rem 0 1rem" }}>
-                  <span /><small>already have an account?</small><span />
+                  <span /><small>Already have an account?</small><span />
                 </div>
 
                 <p className="su-login">

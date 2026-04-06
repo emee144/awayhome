@@ -39,8 +39,8 @@ export default function LoginPage() {
         setStatus("error");
         setMessage(data.error || "Invalid email or password.");
       } else {
-        // redirect to dashboard or home after login
-        router.push(data.redirectTo || "/dashboard");
+       
+        router.push(data.redirectTo || "/");
       }
     } catch {
       setStatus("error");

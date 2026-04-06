@@ -1,47 +1,102 @@
 import { NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import { Resend } from 'resend'
 import { connectDB } from '@/lib/mongodb'
 import User from '@/models/User'
 
+const resend = new Resend(process.env.RESEND_API_KEY)
+
 export async function POST(req) {
   try {
-    const { email, password } = await req.json()
+    const {
+      name,
+      email,
+      phone,
+      password,
+      confirmPassword,
+      agree
+    } = await req.json()
 
-    if (!email || !password) {
-      return NextResponse.json({ message: 'All fields are required' }, { status: 400 })
+    // ✅ Validation
+    if (!name || !email || !password || !confirmPassword) {
+      return NextResponse.json(
+        { message: 'All required fields must be filled' },
+        { status: 400 }
+      )
     }
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-if (!emailRegex.test(email)) {
-  return NextResponse.json({ message: 'Invalid email format' }, { status: 400 });
-}
+
+    if (!agree) {
+      return NextResponse.json(
+        { message: 'You must accept the terms' },
+        { status: 400 }
+      )
+    }
+
+    if (password.length < 8) {
+      return NextResponse.json(
+        { message: 'Password must be at least 8 characters' },
+        { status: 400 }
+      )
+    }
+
+    if (password !== confirmPassword) {
+      return NextResponse.json(
+        { message: 'Passwords do not match' },
+        { status: 400 }
+      )
+    }
+
     await connectDB()
 
+    // ✅ Check existing user
     const existingUser = await User.findOne({ email })
     if (existingUser) {
-      return NextResponse.json({ message: 'Email already registered' }, { status: 400 })
+      return NextResponse.json(
+        { message: 'Email already registered' },
+        { status: 400 }
+      )
     }
 
-    const user = await User.create({ email, password })
+ 
+    const verifyToken = crypto.randomBytes(32).toString('hex')
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    )
 
-    const res = NextResponse.json({ message: 'Account created successfully' }, { status: 201 })
-    res.cookies.set('access_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7,
-      path: '/',
+    const user = await User.create({
+      name,
+      email,
+      phone,
+      password, 
+      isVerified: false,
+      verifyToken,
     })
 
-    return res
+
+    const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/verify-email?token=${verifyToken}`
+
+    // ✅ Send email
+    await resend.emails.send({
+      from: 'Your App <onboarding@resend.dev>',
+      to: email,
+      subject: 'Verify your email',
+      html: `
+        <h2>Welcome, ${name} 👋</h2>
+        <p>Please verify your email:</p>
+        <a href="${verifyUrl}" style="padding:10px 20px;background:black;color:white;text-decoration:none;border-radius:5px;">
+          Verify Email
+        </a>
+      `,
+    })
+
+    return NextResponse.json(
+      { message: 'Account created. Check your email to verify.' },
+      { status: 201 }
+    )
 
   } catch (err) {
     console.error(err)
-    return NextResponse.json({ message: 'Server error' }, { status: 500 })
+    return NextResponse.json(
+      { message: 'Server error' },
+      { status: 500 }
+    )
   }
 }
