@@ -550,7 +550,7 @@ export default function SignupPage() {
                 </div>
 
                 <p className="su-login">
-                  <Link href="/login">Sign in to your account</Link>
+                  <Link href="/login">Sign In</Link>
                 </p>
               </>
             )}

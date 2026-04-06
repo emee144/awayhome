@@ -8,12 +8,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-          {children}
-        </GoogleOAuthProvider>
-      </body>
+    <html lang="en" data-scroll-behavior="smooth">
+      <body>{children}</body>
     </html>
   );
 }

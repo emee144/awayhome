@@ -259,7 +259,7 @@ export default function Footer() {
 
             <p>
               Discover hotels, apartments, shortlets, and properties for sale across Nigeria.
-              We connect you directly with landlords, agents, and hotel owners — no middlemen, no booking fees.
+              We connect you directly with landlords, agents, and hotel owners. No middlemen, no booking fees.
             </p>
 
             <div className="footer-contact-item">

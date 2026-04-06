@@ -443,7 +443,7 @@ export default function LoginPage() {
               {/* Sign up link */}
               <p className="lg-signup">
                 Don't have an account?{" "}
-                <Link href="/signup">Create one for free</Link>
+                <Link href="/signup">Register</Link>
               </p>
 
             </div>
