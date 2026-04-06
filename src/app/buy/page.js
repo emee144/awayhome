@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { FiPhone, FiMail } from "react-icons/fi";
 
 // ─── CSS ──────────────────────────────────────────────────────────────────────
 const CSS = `
@@ -215,7 +216,38 @@ const CSS = `
     background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.7);
     font-size: 0.68rem; padding: 3px 8px; border-radius: 5px; backdrop-filter: blur(4px);
   }
+.by-card-contact {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
+.by-card-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.45);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s;
+}
+
+.by-card-contact-item:hover {
+  color: #C9A84C;
+}
+  .ht-card-contact-item svg {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.by-card-contact-item:hover svg {
+  opacity: 1;
+}
   /* Badges */
   .by-card-badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
   .by-badge {
@@ -452,7 +484,7 @@ function PropertyCard({ property }) {
   const {
     _id, title, images, location, price, negotiable,
     propertyType, bedrooms, bathrooms, landSize, landUnit,
-    description, amenities, agencyName,
+    description, amenities, agencyName, contact,
   } = property;
 
   const visibleA = (amenities || []).slice(0, 3);
@@ -552,6 +584,31 @@ function PropertyCard({ property }) {
 
         {/* Description */}
         <p className="by-card-desc">{description}</p>
+        {contact?.phone && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); 
+              window.location.href = `tel:${contact.phone}`;
+            }}
+            className="by-card-contact-item"
+          >
+            <FiPhone size={13} />
+            <span>{contact.phone}</span>
+          </button>
+        )}
+        
+        {contact?.email && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              window.location.href = `mailto:${contact.email}`;
+            }}
+            className="by-card-contact-item"
+          >
+            <FiMail size={13} />
+            <span>{contact.email}</span>
+          </button>
+        )}
 
         {/* Footer */}
         <div className="by-card-footer">
@@ -616,7 +673,7 @@ export default function BuyPage() {
       Object.entries(params).forEach(([k, v]) => {
         if (v !== "" && v !== false && v !== null && v !== undefined) qs.set(k, v);
       });
-      const res  = await fetch(`/api/auth/listings?${qs.toString()}`);
+      const res  = await fetch(`/api/listings?${qs.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to load properties.");
       setProperties(data.listings);

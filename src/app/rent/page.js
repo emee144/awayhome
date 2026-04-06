@@ -613,7 +613,7 @@ export default function RentPage() {
       Object.entries(params).forEach(([k, v]) => {
         if (v !== "" && v !== null && v !== undefined) qs.set(k, String(v));
       });
-      const res = await fetch(`/api/auth/listings?${qs.toString()}`);
+      const res = await fetch(`/api/listings?${qs.toString()}`);
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       setListings(data.listings || []);

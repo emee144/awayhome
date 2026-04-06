@@ -534,7 +534,7 @@ export default function ListingsPage() {
       Object.entries(params).forEach(([k, v]) => {
         if (v !== "" && v !== null && v !== undefined) qs.set(k, v);
       });
-      const res  = await fetch(`/api/auth/listings?${qs.toString()}`);
+      const res  = await fetch(`/api/listings?${qs.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch listings.");
       setListings(data.listings);
