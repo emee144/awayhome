@@ -1,13 +1,13 @@
 "use client";
-
+export const dynamic = "force-dynamic";
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FiPhone, FiMail, FiGlobe } from "react-icons/fi";
 import Link from "next/link";
+import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// ─── Shared CSS (same design system as listing create page) ───────────────────
 const PAGE_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -503,7 +503,7 @@ function SkeletonCard() {
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function ListingsPage() {
+function ListingsContent() {
   const router       = useRouter();
   const searchParams = useSearchParams();
 
@@ -771,5 +771,14 @@ export default function ListingsPage() {
         <Footer />
       </div>
     </>
+  );
+}
+export default function ListingsPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "2rem", color: "#fff" }}>
+      Loading listings...
+    </div>}>
+      <ListingsContent />
+    </Suspense>
   );
 }
