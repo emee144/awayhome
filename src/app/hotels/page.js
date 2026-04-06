@@ -69,12 +69,44 @@ const PAGE_CSS = `
     background: rgba(13,18,32,0.96); backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(255,255,255,0.07);
     padding: 0.85rem 2rem;
+     overflow-x: hidden;
   }
-  .ht-bar-inner {
-    max-width: 1280px; margin: 0 auto;
-    display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
-  }
+ .ht-bar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+   padding-right: 1rem;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none; 
+  width: 100%;
+  scroll-snap-type: x mandatory;
+}
 
+.ht-bar-inner::-webkit-scrollbar {
+  height: 6px;
+}
+
+.ht-bar-inner::-webkit-scrollbar-thumb {
+  background: rgba(201,168,76,0.4);
+  border-radius: 10px;
+}
+
+.ht-bar-inner > * {
+  scroll-snap-align: start;
+}
+  .ht-bar-inner > * {
+  flex-shrink: 0;
+}
+.ht-search-wrap {
+  min-width: 220px;
+}
+
+.ht-stars-row {
+  min-width: max-content;
+}
   /* Search */
   .ht-search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 340px; }
   .ht-search-icon {
@@ -185,7 +217,7 @@ const PAGE_CSS = `
   .ht-count strong { color: rgba(255,255,255,0.6); }
 
   /* ── Grid ── */
-  .ht-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.3rem; }
+  .ht-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.3rem; }
 
   /* ── Hotel Card ── */
   .ht-card {
@@ -199,7 +231,7 @@ const PAGE_CSS = `
   }
 
   /* Image */
-  .ht-card-img { position: relative; height: 210px; background: rgba(255,255,255,0.04); overflow: hidden; }
+  .ht-card-img { position: relative; height: 140px; background: rgba(255,255,255,0.04); overflow: hidden; }
   .ht-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.38s; }
   .ht-card:hover .ht-card-img img { transform: scale(1.05); }
 

@@ -5,7 +5,7 @@ const ListingSchema = new mongoose.Schema(
     // ── Core ──────────────────────────────────────────────────────────────────
     type: {
       type: String,
-      enum: ["hotel", "shortlet", "sale"],
+      enum: ["hotel", "shortlet", "sale", "rent"],
       required: true,
       index: true,
     },
@@ -23,6 +23,7 @@ const ListingSchema = new mongoose.Schema(
     // ── Images (Cloudinary URLs) ───────────────────────────────────────────────
     images: {
       type: [String],
+      required: true,
       validate: {
         validator: (arr) => arr.length >= 1 && arr.length <= 4,
         message: "Between 1 and 4 images are required.",
@@ -47,10 +48,19 @@ const ListingSchema = new mongoose.Schema(
     // ── Amenities (shared) ────────────────────────────────────────────────────
     amenities: { type: [String], default: [] },
 
-    // ── Hotel-specific ────────────────────────────────────────────────────────
+    // ── Hotel-shortlet-specific ────────────────────────────────────────────────────────
     starRating:    { type: String, default: null },
     totalRooms:    { type: Number, default: null },
-    pricePerNight: { type: Number, default: null },
+    pricePerNight: {
+  type: Number,
+  default: null,
+  required: [
+    function () {
+      return this.type === "hotel" || this.type === "shortlet";
+    },
+    "pricePerNight is required for hotel or shortlet listings",
+  ],
+},
 
     // ── Shortlet-specific ─────────────────────────────────────────────────────
     pricePerWeek: { type: Number, default: null },
@@ -61,13 +71,35 @@ const ListingSchema = new mongoose.Schema(
     bathrooms: { type: Number, default: null },
     toilets:   { type: Number, default: null },
 
-    // ── Sale-specific ─────────────────────────────────────────────────────────
-    propertyType: { type: String, default: null },
-    price:        { type: Number, default: null },
+    // ── Sale-or-rent-specific ─────────────────────────────────────────────────────────
+   propertyType: {
+  type: String,
+  default: null,
+  required: function () {
+    return this.type === "sale" || this.type === "rent";
+  },
+},
+    price: {
+  type: Number,
+  default: null,
+  required: function () {
+    return this.type === "sale";
+  },
+},
     negotiable:   { type: Boolean, default: false },
     landSize:     { type: Number, default: null },
     landUnit:     { type: String, default: "sqm" },
     agencyName:   { type: String, default: null },
+
+    // ── Rent-specific ────────────────────────────────────────────────────────────
+pricePerYear: {
+  type: Number,
+  default: null,
+  required: function () {
+    return this.type === "rent";
+  },
+},
+pricePerMonth: { type: Number, default: null },
   },
   {
     timestamps: true, // adds createdAt + updatedAt
@@ -81,5 +113,47 @@ ListingSchema.index({ "location.city": 1 });
 ListingSchema.index({ price: 1 });
 ListingSchema.index({ pricePerNight: 1 });
 ListingSchema.index({ featured: -1, createdAt: -1 });
+ListingSchema.index({ pricePerYear: 1 });
+ListingSchema.index({ pricePerMonth: 1 });
+ListingSchema.pre("save", function () {
+  if (this.type !== "sale") {
+    this.price = null;
+  }
+
+  if (this.type !== "rent") {
+    this.pricePerYear = null;
+    this.pricePerMonth = null;
+  }
+
+  if (this.type !== "hotel" && this.type !== "shortlet") {
+    this.pricePerNight = null;
+  }
+});
+ListingSchema.pre("findOneAndUpdate", function () {
+  const update = this.getUpdate();
+  if (!update) return;
+
+  // Handle both $set and direct updates
+  const data = update.$set || update;
+  const type = data.type;
+
+  if (type) {
+    if (type !== "sale") {
+      data.price = null;
+    }
+
+    if (type !== "rent") {
+      data.pricePerYear = null;
+      data.pricePerMonth = null;
+    }
+
+    if (type !== "hotel" && type !== "shortlet") {
+      data.pricePerNight = null;
+    }
+  }
+
+
+  this.setOptions({ runValidators: true });
+});
 
 export default mongoose.models.Listing || mongoose.model("Listing", ListingSchema);

@@ -430,9 +430,6 @@ export default function LoginPage() {
                   ) : (
                     <>
                       Sign In
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="16" height="16">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                      </svg>
                     </>
                   )}
                 </button>
@@ -459,7 +456,7 @@ export default function LoginPage() {
               {/* Sign up link */}
               <p className="lg-signup">
                 Don't have an account?{" "}
-                <Link href="/signup">Create one for free →</Link>
+                <Link href="/signup">Create one for free</Link>
               </p>
 
             </div>

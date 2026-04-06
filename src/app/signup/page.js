@@ -540,9 +540,6 @@ export default function SignupPage() {
                     ) : (
                       <>
                         Create Account
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="16" height="16">
-                          <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
                       </>
                     )}
                   </button>
@@ -553,7 +550,7 @@ export default function SignupPage() {
                 </div>
 
                 <p className="su-login">
-                  <Link href="/login">Sign in to your account →</Link>
+                  <Link href="/login">Sign in to your account</Link>
                 </p>
               </>
             )}

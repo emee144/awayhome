@@ -29,7 +29,11 @@ const AMENITIES_SALE = [
   "CCTV","Security Post","Perimeter Fence","Parking","Garden/Lawn",
   "Solar Power","Borehole","Elevator","Smart Home",
 ];
-
+const AMENITIES_RENT = [
+  "Parking","Security","Borehole","Generator","CCTV",
+  "Prepaid Meter","Wardrobes","Kitchen Cabinets",
+  "Balcony","Tiled Floors","POP Ceiling","Fence",
+];
 const MAX_IMAGES = 4;
 
 // ─── Shared input styles injected once ───────────────────────────────────────
@@ -84,7 +88,7 @@ const SHARED_CSS = `
     text-align: center;
   }
   .lp-type-tabs {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
   }
   .lp-type-tab {
     display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -135,7 +139,7 @@ const SHARED_CSS = `
 
   /* ── Form grid ── */
   .lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-  .lp-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .lp-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
   .lp-grid.cols-1 { grid-template-columns: 1fr; }
 
   .lp-field { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -194,7 +198,22 @@ const SHARED_CSS = `
     border-right: 1px solid rgba(255,255,255,0.08); height: 46px;
     display: flex; align-items: center; justify-content: center;
   }
+ .lp-link-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #C9A84C;
+  text-decoration: none;
+  word-break: break-all;
+  transition: opacity 0.2s;
+}
 
+.lp-link-preview:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
   /* ── Amenities checkboxes ── */
   .amenities-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.6rem;
@@ -328,7 +347,7 @@ const SHARED_CSS = `
   @media (max-width: 680px) {
     .lp-type-tabs { grid-template-columns: 1fr; }
     .lp-grid { grid-template-columns: 1fr; }
-    .lp-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    .lp-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
     .lp-field.span-2, .lp-field.span-3 { grid-column: span 1; }
     .img-upload-grid { grid-template-columns: repeat(2, 1fr); }
     .lp-submit-bar { flex-direction: column; align-items: stretch; }
@@ -336,7 +355,7 @@ const SHARED_CSS = `
   }
 `;
 
-// ─── Counter component ────────────────────────────────────────────────────────
+// ─── Counter component ────────────────────────────────
 function Counter({ value, onChange, min = 0, max = 20 }) {
   return (
     <div className="lp-counter">
@@ -520,7 +539,29 @@ function HotelForm({ onSubmit, submitting, error }) {
           </div>
           <div className="lp-field">
             <label>Hotel Website / Booking Link</label>
-            <input className="lp-input" type="url" placeholder="https://yourhotel.com" value={form.website} onChange={(e) => set("website", e.target.value)} />
+            <input
+  className="lp-input"
+  type="text"
+  placeholder="https://yourhotel.com"
+  value={form.website}
+  onChange={(e) => set("website", e.target.value)}
+  onBlur={(e) => {
+    const val = e.target.value.trim();
+    if (val && !/^https?:\/\//i.test(val)) {
+      set("website", "https://" + val);
+    }
+  }}
+/>
+{form.website && (
+    <a
+      href={normalizeWebsite(form.website)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="lp-link-preview"
+    >
+      🔗 Visit: {normalizeWebsite(form.website)}
+    </a>
+  )}
           </div>
         </div>
       </div>
@@ -674,7 +715,29 @@ function ShortletForm({ onSubmit, submitting, error }) {
           </div>
           <div className="lp-field">
             <label>Listing Link (optional)</label>
-            <input className="lp-input" type="url" placeholder="Airbnb, personal site, etc." value={form.website} onChange={(e) => set("website", e.target.value)} />
+            <input
+  className="lp-input"
+  type="text"
+  placeholder="https://yourhotel.com"
+  value={form.website}
+  onChange={(e) => set("website", e.target.value)}
+  onBlur={(e) => {
+    const val = e.target.value.trim();
+    if (val && !/^https?:\/\//i.test(val)) {
+      set("website", "https://" + val);
+    }
+  }}
+/>
+{form.website && (
+    <a
+      href={normalizeWebsite(form.website)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="lp-link-preview"
+    >
+      🔗 Visit: {normalizeWebsite(form.website)}
+    </a>
+  )}
           </div>
         </div>
       </div>
@@ -855,7 +918,252 @@ function SaleForm({ onSubmit, submitting, error }) {
     </form>
   );
 }
+function RentForm({ onSubmit, submitting, error }) {
+  const [form, setForm] = useState({
+    title: "",
+    propertyType: "",
+    address: "",
+    state: "",
+    city: "",
+    pricePerYear: "",
+    pricePerMonth: "",
+    description: "",
+    contactName: "",
+    contactPhone: "",
+    contactEmail: "",
+    agencyName: "",
+    amenities: [],
+  });
 
+  const [counts, setCounts] = useState({
+    bedrooms: 2,
+    bathrooms: 2,
+    toilets: 2,
+  });
+
+  const [images, setImages] = useState([null, null, null, null]);
+
+  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  const setCount = (k, v) => setCounts((c) => ({ ...c, [k]: v }));
+
+  const handleAddImage = (index, file) => {
+    const url = URL.createObjectURL(file);
+    setImages((prev) => {
+      const n = [...prev];
+      n[index] = { file, preview: url };
+      return n;
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages((prev) => {
+      const n = [...prev];
+      n[index] = null;
+      return n;
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({
+      type: "rent",
+      form: { ...form, ...counts },
+      images: images.filter(Boolean),
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Property Details */}
+      <div className="lp-section">
+        <div className="lp-section-title"><span>1</span> Rental Details</div>
+
+        <div className="lp-grid">
+          <div className="lp-field span-2">
+            <label>Listing Title <span className="req">*</span></label>
+            <input className="lp-input"
+              placeholder="e.g. 3-Bedroom Apartment for Rent in Lekki"
+              value={form.title}
+              onChange={(e) => set("title", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="lp-field">
+            <label>Property Type <span className="req">*</span></label>
+            <select className="lp-select"
+              value={form.propertyType}
+              onChange={(e) => set("propertyType", e.target.value)}
+              required
+            >
+              <option value="">Select type</option>
+              {["Flat / Apartment","Duplex","Bungalow","Mini Flat","Self Contain","Commercial"].map((t) => (
+                <option key={t}>{t}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="lp-field">
+            <label>Price Per Year (₦) <span className="req">*</span></label>
+            <div className="lp-prefix-wrap">
+              <span className="lp-prefix">₦</span>
+              <input className="lp-input"
+                type="number"
+                placeholder="1,500,000"
+                value={form.pricePerYear}
+                onChange={(e) => set("pricePerYear", e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="lp-field">
+            <label>Price Per Month (₦)</label>
+            <div className="lp-prefix-wrap">
+              <span className="lp-prefix">₦</span>
+              <input className="lp-input"
+                type="number"
+                placeholder="Optional"
+                value={form.pricePerMonth}
+                onChange={(e) => set("pricePerMonth", e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Counters */}
+          <div className="lp-field">
+            <label>Bedrooms</label>
+            <Counter value={counts.bedrooms} onChange={(v) => setCount("bedrooms", v)} />
+          </div>
+          <div className="lp-field">
+            <label>Bathrooms</label>
+            <Counter value={counts.bathrooms} onChange={(v) => setCount("bathrooms", v)} />
+          </div>
+          <div className="lp-field">
+            <label>Toilets</label>
+            <Counter value={counts.toilets} onChange={(v) => setCount("toilets", v)} />
+          </div>
+
+          <div className="lp-field span-2">
+            <label>Description <span className="req">*</span></label>
+            <textarea className="lp-textarea"
+              placeholder="Describe the rental property..."
+              value={form.description}
+              onChange={(e) => set("description", e.target.value)}
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Location */}
+      <div className="lp-section">
+        <div className="lp-section-title"><span>2</span> Location</div>
+
+        <div className="lp-grid">
+          <div className="lp-field span-2">
+            <label>Street Address <span className="req">*</span></label>
+            <input className="lp-input"
+              value={form.address}
+              onChange={(e) => set("address", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="lp-field">
+            <label>State <span className="req">*</span></label>
+            <select className="lp-select"
+              value={form.state}
+              onChange={(e) => set("state", e.target.value)}
+              required
+            >
+              <option value="">Select state</option>
+              {NIGERIAN_STATES.map((s) => <option key={s}>{s}</option>)}
+            </select>
+          </div>
+
+          <div className="lp-field">
+            <label>City / Area <span className="req">*</span></label>
+            <input className="lp-input"
+              value={form.city}
+              onChange={(e) => set("city", e.target.value)}
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Amenities */}
+      <div className="lp-section">
+        <div className="lp-section-title"><span>3</span> Features</div>
+        <AmenityGrid
+          list={AMENITIES_RENT}
+          selected={form.amenities}
+          onChange={(v) => set("amenities", v)}
+        />
+      </div>
+
+      {/* Photos */}
+      <div className="lp-section">
+        <div className="lp-section-title"><span>4</span> Photos</div>
+        <div className="img-upload-grid">
+          {images.map((img, i) => (
+            <ImageSlot
+              key={i}
+              index={i}
+              preview={img?.preview}
+              onAdd={handleAddImage}
+              onRemove={handleRemoveImage}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Contact */}
+      <div className="lp-section">
+        <div className="lp-section-title"><span>5</span> Contact</div>
+
+        <div className="lp-grid">
+          <div className="lp-field">
+            <label>Name</label>
+            <input className="lp-input"
+              value={form.contactName}
+              onChange={(e) => set("contactName", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="lp-field">
+            <label>Phone</label>
+            <input className="lp-input"
+              value={form.contactPhone}
+              onChange={(e) => set("contactPhone", e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="lp-field">
+            <label>Email</label>
+            <input className="lp-input"
+              value={form.contactEmail}
+              onChange={(e) => set("contactEmail", e.target.value)}
+            />
+          </div>
+
+          <div className="lp-field">
+            <label>Agency</label>
+            <input className="lp-input"
+              value={form.agencyName}
+              onChange={(e) => set("agencyName", e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <SubmitBar submitting={submitting} error={error} />
+    </form>
+  );
+}
 // ─── Shared submit bar ────────────────────────────────────────────────────────
 function SubmitBar({ submitting, error }) {
   return (
@@ -894,8 +1202,29 @@ const TYPES = [
     id: "sale", name: "Property for Sale", sub: "Houses, land & more",
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
   },
+  {
+  id: "rent",
+  name: "Property for Rent",
+  sub: "Apartments & houses for rent",
+  icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="26" height="26">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      <path d="M9 22V12h6v10"/>
+    </svg>
+  ),
+}
 ];
+function normalizeWebsite(url) {
+  if (!url) return null;
 
+  let clean = url.trim();
+
+  if (!/^https?:\/\//i.test(clean)) {
+    clean = "https://" + clean;
+  }
+
+  return clean;
+}
 export default function ListPropertyPage() {
   const [activeType, setActiveType] = useState("hotel");
   const [submitting, setSubmitting] = useState(false);
@@ -926,7 +1255,12 @@ export default function ListPropertyPage() {
       const res = await fetch("/api/auth/listings/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, ...form, images: imageUrls }),
+        body: JSON.stringify({
+  type,
+  ...form,
+  website: normalizeWebsite(form.website), 
+  images: imageUrls,
+}),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Submission failed");
@@ -1010,6 +1344,7 @@ export default function ListPropertyPage() {
                 {activeType === "hotel"    && <HotelForm    onSubmit={handleSubmit} submitting={submitting} error={error} />}
                 {activeType === "shortlet" && <ShortletForm onSubmit={handleSubmit} submitting={submitting} error={error} />}
                 {activeType === "sale"     && <SaleForm     onSubmit={handleSubmit} submitting={submitting} error={error} />}
+                {activeType === "rent"     && <RentForm     onSubmit={handleSubmit} submitting={submitting} error={error} />}
               </>
             )}
           </div>

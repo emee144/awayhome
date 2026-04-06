@@ -150,7 +150,7 @@ const PAGE_CSS = `
     border-color: rgba(201,168,76,0.3); transform: translateY(-3px);
     box-shadow: 0 16px 48px rgba(0,0,0,0.4);
   }
-  .ls-card-img { position: relative; height: 200px; background: rgba(255,255,255,0.04); overflow: hidden; }
+  .ls-card-img { position: relative; height: 150px; background: rgba(255,255,255,0.04); overflow: hidden; }
   .ls-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s; }
   .ls-card:hover .ls-card-img img { transform: scale(1.04); }
 
@@ -176,6 +176,11 @@ const PAGE_CSS = `
   box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
   .ls-badge.sale     { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);  color: #C9A84C; }
+  .ls-badge.rent {
+  background: rgba(59,130,246,0.15);
+  border: 1px solid rgba(59,130,246,0.3);
+  color: #60A5FA;
+}
 
   .ls-img-count {
     position: absolute; bottom: 10px; right: 10px;
@@ -188,6 +193,41 @@ const PAGE_CSS = `
     gap: 8px; color: rgba(255,255,255,0.15);
   }
   .ls-card-no-img span { font-size: 0.75rem; }
+
+  .ls-img-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s, opacity 0.2s;
+  opacity: 0;
+}
+
+.ls-card-img:hover .ls-img-nav {
+  opacity: 1;
+}
+
+.ls-img-nav:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.ls-img-nav.left {
+  left: 8px;
+}
+
+.ls-img-nav.right {
+  right: 8px;
+}
 
   .ls-stars { display: flex; gap: 2px; margin-bottom: 6px; color: #C9A84C; }
 
@@ -327,26 +367,70 @@ const HomeIllo = () => (
   </svg>
 );
 
-// ─── Listing Card ─────────────────────────────────────────────────────────────
-function ListingCard({ listing }) {
+// ─── Listing Card ────────────────────────────────────────────────────────────
+function ListingCard({ listing, rentMode }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+const nextImage = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  setCurrentIndex((prev) => (prev + 1) % images.length);
+};
+
+const prevImage = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  setCurrentIndex((prev) =>
+    prev === 0 ? images.length - 1 : prev - 1
+  );
+};
   const { _id, type, title, images, location, pricePerNight, price,
           starRating, bedrooms, propertyType, description, contact } = listing;
-  const displayPrice = type === "sale" ? price : pricePerNight;
-  const priceSuffix  = type === "sale" ? "" : "/night";
+  let displayPrice;
+let priceSuffix = "";
 
+if (type === "sale") {
+  displayPrice = price;
+
+} else if (type === "rent") {
+  if (rentMode === "month") {
+    displayPrice = listing.pricePerMonth || listing.pricePerYear;
+    priceSuffix = "/month";
+  } else {
+    displayPrice = listing.pricePerYear || listing.pricePerMonth;
+    priceSuffix = "/year";
+  }
+
+} else {
+  displayPrice = pricePerNight;
+  priceSuffix = "/night";
+}
   return (
     <Link href={`/listings/${_id}`} className="ls-card">
       <div className="ls-card-img">
-        {images?.[0] ? (
-          <img src={images[0]} alt={title} />
-        ) : (
+        {images?.length > 0 ? (
+  <>
+    <img src={images[currentIndex]} alt={title} />
+
+    {images.length > 1 && (
+      <>
+        <button className="ls-img-nav left" onClick={prevImage}>
+          <ChevL />
+        </button>
+
+        <button className="ls-img-nav right" onClick={nextImage}>
+          <ChevR />
+        </button>
+      </>
+    )}
+  </>
+) : (
           <div className="ls-card-no-img">
             <HomeIllo />
             <span>No photo</span>
           </div>
         )}
         <span className={`ls-badge ${type}`}>
-          {type === "hotel" ? "Hotel" : type === "shortlet" ? "Shortlet" : "For Sale"}
+          {type === "hotel" ? "Hotel" : type === "shortlet" ? "Shortlet" : type === "rent" ? "For Rent" : "For Sale"}
         </span>
         {images?.length > 1 && (
           <span className="ls-img-count">+{images.length - 1} photos</span>
@@ -439,6 +523,7 @@ export default function ListingsPage() {
     bedrooms:  searchParams.get("bedrooms")  || "",
     sortBy:    searchParams.get("sortBy")    || "createdAt",
     sortOrder: searchParams.get("sortOrder") || "desc",
+    rentMode:  searchParams.get("rentMode")  || "year",
     page:      parseInt(searchParams.get("page") || "1", 10),
   });
 
@@ -468,9 +553,18 @@ export default function ListingsPage() {
       if (v !== "" && v !== null && v !== undefined) qs.set(k, String(v));
     });
     router.replace(`/listings?${qs.toString()}`, { scroll: false });
-  }, [filters]); // eslint-disable-line
+  }, [filters]); 
 
-  const setFilter    = (k, v) => setFilters((p) => ({ ...p, [k]: v, page: 1 }));
+ const setFilter = (k, v) => {
+  setFilters((prev) => ({
+    ...prev,
+    [k]: v,
+    page: 1,
+
+    // 👇 reset rentMode when switching away from rent
+    ...(k === "type" && v !== "rent" ? { rentMode: "year" } : {})
+  }));
+};
   const goToPage     = (p)    => setFilters((prev) => ({ ...prev, page: p }));
   const clearFilters = ()     => setFilters({
     type: "", state: "", city: "", search: "",
@@ -519,7 +613,7 @@ export default function ListingsPage() {
             </div>
 
             <div className="ls-tabs">
-              {[["", "All"], ["hotel", "Hotels"], ["shortlet", "Shortlets"], ["sale", "For Sale"]].map(
+              {[["", "All"], ["hotel", "Hotels"], ["shortlet", "Shortlets"], ["rent", "For Rent"], ["sale", "For Sale"]].map(
                 ([val, label]) => (
                   <button key={val} className={`ls-tab ${filters.type === val ? "active" : ""}`}
                     onClick={() => setFilter("type", val)}>
@@ -552,6 +646,10 @@ export default function ListingsPage() {
               <option value="price:desc">Price: High → Low</option>
               <option value="pricePerNight:asc">Night: Low → High</option>
               <option value="pricePerNight:desc">Night: High → Low</option>
+              <option value="pricePerYear:asc">Rent (Year): Low → High</option>
+              <option value="pricePerYear:desc">Rent (Year): High → Low</option>
+              <option value="pricePerMonth:asc">Rent (Month): Low → High</option>
+              <option value="pricePerMonth:desc">Rent (Month): High → Low</option>
             </select>
           </div>
         </div>
@@ -584,7 +682,16 @@ export default function ListingsPage() {
                   ))}
                 </select>
               )}
-
+              {filters.type === "rent" && (
+  <select
+    className="ls-filter-select"
+    value={filters.rentMode}
+    onChange={(e) => setFilter("rentMode", e.target.value)}
+  >
+    <option value="year">Per Year</option>
+    <option value="month">Per Month</option>
+  </select>
+)}
               {activeFilterCount > 0 && (
                 <button className="ls-clear-btn" onClick={clearFilters}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -632,7 +739,7 @@ export default function ListingsPage() {
                 )}
               </div>
             ) : (
-              listings.map((l) => <ListingCard key={l._id} listing={l} />)
+              listings.map((l) => <ListingCard key={l._id} listing={l} rentMode={filters.rentMode}/>)
             )}
           </div>
 

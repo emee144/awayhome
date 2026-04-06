@@ -28,7 +28,7 @@ export async function POST(request) {
     const userId = user._id.toString();
 
     // ── 1. Validate listing type ───────────────────────────────────────────────
-    if (!["hotel", "shortlet", "sale"].includes(type)) {
+    if (!["hotel", "shortlet", "sale", "rent"].includes(type)) {
       return NextResponse.json({ error: "Invalid listing type." }, { status: 400 });
     }
 
@@ -58,7 +58,20 @@ export async function POST(request) {
         "contactName", "contactPhone",
       ]);
     }
+  if (type === "rent") {
+  missingFields = validateRequired(body, [
+    "title", "propertyType", "address", "state", "city",
+    "description",
+    "contactName", "contactPhone",
+  ]);
 
+  if (!body.pricePerMonth && !body.pricePerYear) {
+    return NextResponse.json(
+      { error: "Provide at least pricePerMonth or pricePerYear." },
+      { status: 400 }
+    );
+  }
+}
     if (missingFields.length > 0) {
       return NextResponse.json(
         { error: `Missing required fields: ${missingFields.join(", ")}` },
@@ -190,7 +203,7 @@ export async function POST(request) {
         bedrooms: parseInt(body.bedrooms, 10) || 0,
         bathrooms: parseInt(body.bathrooms, 10) || 0,
         toilets: parseInt(body.toilets, 10) || 0,
-        price: parseFloat(body.price),
+        price: body.price ? parseFloat(body.price) : null,
         negotiable: Boolean(body.negotiable),
         landSize: body.landSize ? parseFloat(body.landSize) : null,
         landUnit: body.landUnit || "sqm",
@@ -198,6 +211,21 @@ export async function POST(request) {
         agencyName: body.agencyName?.trim() || null,
       };
     }
+    if (type === "rent") {
+  listingData = {
+    ...listingData,
+    title: body.title.trim(),
+    propertyType: body.propertyType,
+    bedrooms: parseInt(body.bedrooms, 10) || 0,
+    bathrooms: parseInt(body.bathrooms, 10) || 0,
+    toilets: parseInt(body.toilets, 10) || 0,
+    pricePerYear: body.pricePerYear ? parseFloat(body.pricePerYear) : null,
+    pricePerMonth: body.pricePerMonth ? parseFloat(body.pricePerMonth) : null,
+    negotiable: Boolean(body.negotiable),
+    description: body.description.trim(),
+    agencyName: body.agencyName?.trim() || null,
+  };
+}
 
     // ── 9. Save to database ───────────────────────────────────────────────────
     const listing = await Listing.create(listingData);

@@ -12,7 +12,6 @@ const footerLinks = {
     { label: "About Us", href: "/about" },
     { label: "How It Works", href: "/how-it-works" },
     { label: "List Your Property", href: "/list-property" },
-    { label: "Blog", href: "/blog" },
     { label: "Contact Us", href: "/contact" },
   ],
   Legal: [

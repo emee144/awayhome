@@ -8,16 +8,17 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
 
     // ── 1. Parse query params ─────────────────────────────────────────────────
-    const type      = searchParams.get("type")    || null;   // hotel | shortlet | sale
+    const type      = searchParams.get("type")    || null;  
     const state     = searchParams.get("state")   || null;
     const city      = searchParams.get("city")    || null;
-    const search    = searchParams.get("search")  || null;   // keyword search
+    const search    = searchParams.get("search")  || null;   
     const minPrice  = searchParams.get("minPrice")|| null;
     const maxPrice  = searchParams.get("maxPrice")|| null;
-    const bedrooms  = searchParams.get("bedrooms")|| null;   // shortlet / sale
+    const rentMode = searchParams.get("rentMode") || "year";
+    const bedrooms  = searchParams.get("bedrooms")|| null;  
     const page      = Math.max(1, parseInt(searchParams.get("page")  || "1", 10));
     const limit     = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") || "12", 10)));
-    const sortBy    = searchParams.get("sortBy")  || "createdAt"; // createdAt | price
+    const sortBy    = searchParams.get("sortBy")  || "createdAt"; 
     const sortOrder = searchParams.get("sortOrder")=== "asc" ? 1 : -1;
 
     // ── 2. Build query ────────────────────────────────────────────────────────
@@ -27,7 +28,6 @@ export async function GET(request) {
     if (state) query["location.state"] = { $regex: new RegExp(`^${state}$`, "i") };
     if (city)  query["location.city"]  = { $regex: new RegExp(`^${city}$`,  "i") };
 
-    // Keyword search on title and description
     if (search) {
       query.$or = [
         { title:       { $regex: search, $options: "i" } },
@@ -35,22 +35,43 @@ export async function GET(request) {
       ];
     }
 
-    // Price filter — field differs by type
-    if (minPrice || maxPrice) {
-      const priceField =
-        type === "sale" ? "price" : "pricePerNight";
-      query[priceField] = {};
-      if (minPrice) query[priceField].$gte = parseFloat(minPrice);
-      if (maxPrice) query[priceField].$lte = parseFloat(maxPrice);
-    }
+   if ((minPrice || maxPrice) && type) {
+  let priceField;
 
-    // Bedrooms filter (shortlet / sale only)
+  switch (type) {
+    case "sale":
+      priceField = "price";
+      break;
+
+    case "rent":
+      priceField =
+        rentMode === "month"
+          ? "pricePerMonth"
+          : "pricePerYear";
+      break;
+
+    default:
+      priceField = "pricePerNight";
+  }
+
+  query[priceField] = {};
+  if (minPrice) query[priceField].$gte = parseFloat(minPrice);
+  if (maxPrice) query[priceField].$lte = parseFloat(maxPrice);
+}
+
     if (bedrooms) {
       query.bedrooms = parseInt(bedrooms, 10);
     }
 
     // ── 3. Sort map ───────────────────────────────────────────────────────────
-    const allowedSortFields = ["createdAt", "price", "pricePerNight", "starRating"];
+   const allowedSortFields = [
+  "createdAt",
+  "price",
+  "pricePerNight",
+  "pricePerYear",
+  "pricePerMonth",
+  "starRating"
+];
     const safeSortField = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
     const sort = { [safeSortField]: sortOrder };
 
@@ -65,7 +86,7 @@ export async function GET(request) {
       .skip(skip)
       .limit(limit)
       .select(
-        "type title images location pricePerNight price starRating bedrooms bathrooms propertyType description createdAt amenities contact"
+        "type title images location pricePerNight price starRating pricePerMonth pricePerYear bedrooms bathrooms propertyType description createdAt amenities contact"
       )
       .lean();
 
