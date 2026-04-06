@@ -393,7 +393,7 @@ export default function ContactPage() {
         <h1>Get in <em>Touch</em></h1>
         <p className="contact-hero-sub">
           Have a question about a listing, need help posting your property, or just want to say hello?
-          Our team is happy to assist — typically within 24 hours.
+          Our team is happy to assist, typically within 1 hour.
         </p>
       </div>
 
