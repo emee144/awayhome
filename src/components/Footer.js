@@ -179,7 +179,7 @@ export default function Footer() {
         }
         .footer-bottom p {
           font-size: 0.8rem;
-          color: rgba(255,255,255,0.35);
+          color: white;
           margin: 0;
         }
         .social-links {
@@ -194,7 +194,7 @@ export default function Footer() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255,255,255,0.45);
+          color: white;
           text-decoration: none;
           transition: border-color 0.2s, color 0.2s, background 0.2s;
         }
