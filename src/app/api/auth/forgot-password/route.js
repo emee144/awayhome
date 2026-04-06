@@ -28,7 +28,6 @@ export async function POST(request) {
       const token     = crypto.randomBytes(32).toString("hex");
       const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // 1 hour
 
-      // ── 4. Save token to user doc ──────────────────────────────────────────
       user.resetPasswordToken   = token;
       user.resetPasswordExpires = expiresAt;
       await user.save();
