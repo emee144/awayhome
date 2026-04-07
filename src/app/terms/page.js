@@ -28,23 +28,23 @@ const CSS = `
     background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.28);
     border-radius: 100px; padding: 5px 16px;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: #C9A84C; margin-bottom: 1.25rem;
+    text-transform: uppercase; color: white; margin-bottom: 1.25rem;
   }
   .tc-hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 700; color: #fff;
+    font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 700; color: white;
     line-height: 1.15; margin-bottom: 0.9rem;
   }
-  .tc-hero h1 em { font-style: italic; color: #C9A84C; }
-  .tc-hero-meta { font-size: 0.82rem; color: rgba(255,255,255,0.32); }
-  .tc-hero-meta strong { color: rgba(255,255,255,0.55); }
+  .tc-hero h1 em { font-style: italic; color: white; }
+  .tc-hero-meta { font-size: 0.82rem; color: white; }
+  .tc-hero-meta strong { color: white; }
 
   /* ── Breadcrumb ── */
   .tc-breadcrumb {
     max-width: 1000px; margin: 0 auto; padding: 1.25rem 2rem 0;
-    display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: rgba(255,255,255,0.28);
+    display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: white;
   }
-  .tc-breadcrumb a { color: rgba(255,255,255,0.28); text-decoration: none; transition: color 0.2s; }
+  .tc-breadcrumb a { color: white; text-decoration: none; transition: color 0.2s; }
   .tc-breadcrumb a:hover { color: #C9A84C; }
 
   /* ── Layout ── */
@@ -57,12 +57,12 @@ const CSS = `
   .tc-nav { position: sticky; top: 5rem; }
   .tc-nav-title {
     font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 0.75rem;
+    text-transform: uppercase; color: white; margin-bottom: 0.75rem;
   }
   .tc-nav-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
   .tc-nav-item a {
     display: block; padding: 7px 12px; border-radius: 8px;
-    font-size: 0.82rem; color: rgba(255,255,255,0.38); text-decoration: none;
+    font-size: 0.82rem; color: white; text-decoration: none;
     border-left: 2px solid transparent; transition: all 0.2s;
   }
   .tc-nav-item a:hover { color: rgba(255,255,255,0.7); border-left-color: rgba(201,168,76,0.4); background: rgba(255,255,255,0.03); }
@@ -75,16 +75,16 @@ const CSS = `
 
   .tc-section h2 {
     font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
-    color: #fff; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;
+    color: white; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;
   }
   .tc-section-num {
     width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
-    background: rgba(201,168,76,0.12); color: #C9A84C;
+    background: rgba(201,168,76,0.12); color: white;
     display: flex; align-items: center; justify-content: center;
     font-size: 0.72rem; font-weight: 700; font-family: 'DM Sans', sans-serif;
   }
   .tc-section p {
-    font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.85; margin-bottom: 0.85rem;
+    font-size: 0.88rem; color: white; line-height: 1.85; margin-bottom: 0.85rem;
   }
   .tc-section p:last-child { margin-bottom: 0; }
 
@@ -94,8 +94,8 @@ const CSS = `
     border-radius: 12px; padding: 1.1rem 1.25rem; margin: 1rem 0;
     display: flex; gap: 12px; align-items: flex-start;
   }
-  .tc-warn-box svg { flex-shrink: 0; color: #f46450; margin-top: 1px; }
-  .tc-warn-box p { font-size: 0.84rem; color: rgba(255,255,255,0.45); margin: 0; line-height: 1.7; }
+  .tc-warn-box svg { flex-shrink: 0; color: white; margin-top: 1px; }
+  .tc-warn-box p { font-size: 0.84rem; color: rwhite; margin: 0; line-height: 1.7; }
 
   /* Info box */
   .tc-info-box {
@@ -103,14 +103,14 @@ const CSS = `
     border-radius: 12px; padding: 1.1rem 1.25rem; margin: 1rem 0;
     display: flex; gap: 12px; align-items: flex-start;
   }
-  .tc-info-box svg { flex-shrink: 0; color: #C9A84C; margin-top: 1px; }
-  .tc-info-box p { font-size: 0.84rem; color: rgba(255,255,255,0.45); margin: 0; line-height: 1.7; }
+  .tc-info-box svg { flex-shrink: 0; color: white; margin-top: 1px; }
+  .tc-info-box p { font-size: 0.84rem; color: white; margin: 0; line-height: 1.7; }
 
   /* List */
   .tc-list { list-style: none; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 7px; }
   .tc-list li {
     display: flex; align-items: flex-start; gap: 10px;
-    font-size: 0.87rem; color: rgba(255,255,255,0.42); line-height: 1.65;
+    font-size: 0.87rem; color: white; line-height: 1.65;
   }
   .tc-list li::before {
     content: ''; width: 5px; height: 5px; border-radius: 50%;
@@ -127,8 +127,8 @@ const CSS = `
     background: #111827; border: 1px solid rgba(201,168,76,0.15);
     border-radius: 14px; padding: 1.5rem; margin-top: 1rem;
   }
-  .tc-contact-card p { font-size: 0.85rem; color: rgba(255,255,255,0.42); margin-bottom: 0.5rem; }
-  .tc-contact-card a { color: #C9A84C; text-decoration: none; font-weight: 600; }
+  .tc-contact-card p { font-size: 0.85rem; color: white; margin-bottom: 0.5rem; }
+  .tc-contact-card a { color: white; text-decoration: none; font-weight: 600; }
   .tc-contact-card a:hover { text-decoration: underline; }
 
   /* Quick links */
@@ -136,7 +136,7 @@ const CSS = `
   .tc-link {
     display: inline-flex; align-items: center; gap: 6px;
     background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.5); font-size: 0.82rem; font-weight: 500;
+    color: white; font-size: 0.82rem; font-weight: 500;
     padding: 8px 16px; border-radius: 8px; text-decoration: none; transition: all 0.2s;
   }
   .tc-link:hover { border-color: rgba(201,168,76,0.35); color: #C9A84C; }
