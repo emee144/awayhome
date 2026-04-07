@@ -1172,7 +1172,7 @@ function SubmitBar({ submitting, error }) {
     <div className="lp-submit-bar">
       <p className="lp-submit-note">
         By submitting you agree to our <strong>Terms of Service</strong>.<br />
-        Listings are reviewed and published within <strong>24 hours</strong>.
+        Listings are reviewed and published within <strong>20 minutes</strong>.
       </p>
       <button type="submit" className="lp-btn" disabled={submitting}>
         {submitting ? (

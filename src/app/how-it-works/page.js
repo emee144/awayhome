@@ -29,19 +29,19 @@ const steps = [
         <rect x="14" y="14" width="7" height="7" rx="1" />
       </svg>
     ),
-    tips: ["Look for the gold 'Verified' badge for confirmed listings", "Tap the image to see the full photo gallery", "Save favourites by creating a free account"],
+    tips: [ "Tap the image to see the full photo gallery", "Save favourites by creating a free account"],
   },
   {
     n: "03",
     title: "View Full Details",
-    desc: "Open any listing to see the complete property profile — high-resolution photos, full amenity list, exact address, owner description, and all available contact options.",
+    desc: "Open any listing to see the complete property profile high resolution photos, full amenity list, exact address, owner description, and all available contact options.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="26" height="26">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
         <circle cx="12" cy="12" r="3" />
       </svg>
     ),
-    tips: ["Scroll down for the full amenities checklist", "Check the 'Rooms' section for hotel-specific details", "Map view shows the exact neighbourhood location"],
+    tips: ["Scroll down for the full amenities checklist", "Check the 'Rooms' section for hotel specific details", "Map view shows the exact neighbourhood location"],
   },
   {
     n: "04",
@@ -52,7 +52,7 @@ const steps = [
         <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
       </svg>
     ),
-    tips: ["WhatsApp is usually the fastest response method", "Call button dials directly — no copy-pasting needed", "Some listings have a 'Visit Site' button for direct booking"],
+    tips: ["WhatsApp is usually the fastest response method", "Call button dials directly, no copy pasting needed", "Some listings have a 'Visit Site' button for direct booking"],
   },
   {
     n: "05",
@@ -139,7 +139,7 @@ const faqs = [
   },
   {
     q: "How do I know a listing is legitimate?",
-    a: "Look for the gold 'Verified' badge — our team has contacted and confirmed these listings. For all listings, we recommend viewing the property in person and never paying without a signed agreement.",
+    a: "Our team has contacted and confirmed these listings. For all listings, we recommend viewing the property in person and never paying without a signed agreement.",
   },
   {
     q: "Can I list my property for free?",
@@ -147,7 +147,7 @@ const faqs = [
   },
   {
     q: "Which states does AwayHome cover?",
-    a: "We currently cover Lagos, Abuja (FCT), Rivers, Kano, Ogun, Oyo, Delta, Anambra, Enugu, Kaduna, Plateau, and Cross River — with more states being added regularly.",
+    a: "We currently cover the entire country.",
   },
   {
     q: "How do I update or remove my listing?",
