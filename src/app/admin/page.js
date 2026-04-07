@@ -148,14 +148,25 @@ const LOGIN_CSS = `
   .login-field { display: flex; flex-direction: column; gap: 6px; }
   .login-label {
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; color: rgba(255,255,255,0.45);
+    text-transform: uppercase; color: white;
   }
   .login-input-wrap { position: relative; }
-  .login-input-icon {
-    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-    color: rgba(255,255,255,0.22); pointer-events: none; transition: color 0.2s;
-  }
-  .login-input-icon.right { left: auto; right: 13px; cursor: pointer; }
+ .login-input-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.22);
+  pointer-events: none; /* keep for left icon */
+}
+
+
+.login-input-icon.right {
+  left: auto;
+  right: 13px;
+  cursor: pointer;
+  pointer-events: auto;
+}
   .login-input {
     width: 100%; padding: 11px 14px 11px 40px;
     background: rgba(255,255,255,0.05);
@@ -330,10 +341,11 @@ export default function AdminLoginPage() {
 
     setLoading(true);
     try {
-      const res  = await fetch("/api/auth/admin", {
+      const res  = await fetch("/api/auth/admin/login", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({ email: email.trim().toLowerCase(), password }),
+        credentials: "include",
       });
       const data = await res.json();
 
@@ -342,8 +354,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      // Redirect to admin dashboard on success
-      router.push("/admin");
+      router.push("/admin/listings");
     } catch {
       setError("Network error. Please check your connection and try again.");
     } finally {
@@ -364,7 +375,7 @@ export default function AdminLoginPage() {
             {/* Logo */}
             <div className="login-logo">
               <div className="login-logo-icon"><ShieldIcon /></div>
-              <span className="login-logo-text">Admin <span>Page</span></span>
+              <span className="login-logo-text">AwayHome Admin <span>Page</span></span>
             </div>
 
             <div className="login-eyebrow">

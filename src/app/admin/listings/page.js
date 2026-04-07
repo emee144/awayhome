@@ -411,7 +411,7 @@ function AdminContent() {
       Object.entries(f).forEach(([k, v]) => { if (v) qs.set(k, v); });
       const res  = await fetch(`/api/admin/listings?${qs.toString()}`);
       if (res.status === 401 || res.status === 403) {
-        router.push("/login");
+        router.push("/admin");
         return;
       }
       const data = await res.json();
@@ -431,24 +431,44 @@ function AdminContent() {
   const setFilter = (k, v) => setFilters(prev => ({ ...prev, [k]: v, page: 1 }));
   const goToPage  = (p)    => setFilters(prev => ({ ...prev, page: p }));
 
-  const handleAction = async (id, action) => {
-    try {
-      const res  = await fetch(`/api/admin/listings/${id}`, {
-        method:  "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ action }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Action failed.");
-      showToast(action === "approve" ? "Listing approved ✓" : "Listing rejected", action === "approve" ? "success" : "error");
-      // Optimistically remove the card from the current filtered view
-      setListings(prev => prev.filter(l => l._id !== id));
-      // Refresh stats
-      fetchListings({ ...filters, page: filters.page });
-    } catch (e) {
-      showToast(e.message, "error");
+const handleAction = async (id, action) => {
+  try {
+    const res = await fetch(`/api/admin/listings/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action }),
+      credentials: "include",
+    });
+
+    if (res.status === 401) {
+      window.location.href = "/admin"; 
+      return;
     }
-  };
+
+    if (res.status === 403) {
+      showToast("Access denied", "error");
+      return;
+    }
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Action failed.");
+
+    showToast(
+      action === "approve"
+        ? "Listing approved ✓"
+        : "Listing rejected",
+      action === "approve" ? "success" : "error"
+    );
+
+    setListings(prev => prev.filter(l => l._id !== id));
+
+    fetchListings({ ...filters, page: filters.page });
+
+  } catch (e) {
+    showToast(e.message, "error");
+  }
+};
 
   const buildPages = (total, current) => {
     const pages = Array.from({ length: total }, (_, i) => i + 1)

@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required'],
     minlength: [8, 'Password must be at least 8 characters'],
+    select: false,
   },
    resetPasswordToken: {
     type: String,
@@ -30,6 +31,15 @@ const UserSchema = new mongoose.Schema({
   resetPasswordExpires: {
     type: Date,
   },
+  role: {
+  type: String,
+  enum: ["user", "admin"],
+  default: "user",
+},
+isAdmin: {
+  type: Boolean,
+  default: false,
+},
 }, { timestamps: true })
 
 UserSchema.pre('save', async function () {

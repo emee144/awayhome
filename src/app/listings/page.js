@@ -74,7 +74,7 @@ const PAGE_CSS = `
   .ls-tab {
     padding: 7px 16px; border-radius: 7px; border: none; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
-    color: rgba(255,255,255,0.45); background: none; transition: all 0.2s; white-space: nowrap;
+    color: white; background: none; transition: all 0.2s; white-space: nowrap;
   }
   .ls-tab:hover { color: rgba(255,255,255,0.75); }
   .ls-tab.active { background: rgba(201,168,76,0.15); color: #C9A84C; border: 1px solid rgba(201,168,76,0.3); }
@@ -84,7 +84,7 @@ const PAGE_CSS = `
     padding: 9px 16px; border-radius: 10px; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
     border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
-    color: rgba(255,255,255,0.55); transition: all 0.2s;
+    color: white; transition: all 0.2s;
   }
   .ls-filter-btn:hover { border-color: rgba(201,168,76,0.3); color: rgba(255,255,255,0.85); }
   .ls-filter-btn.active { border-color: #C9A84C; background: rgba(201,168,76,0.1); color: #C9A84C; }
@@ -98,7 +98,7 @@ const PAGE_CSS = `
   .ls-sort {
     padding: 9px 12px; border-radius: 10px;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
-    color: rgba(255,255,255,0.55); font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
     outline: none; cursor: pointer; transition: border-color 0.2s;
   }
   .ls-sort option { background: #0F1525; color: #fff; }
