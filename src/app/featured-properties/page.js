@@ -149,10 +149,12 @@ export default function FeaturedProperties() {
       <style>{`
         /* ── Cards ── */
         .fp-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.25rem;
-        }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 250px));
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.2rem;
+}
         .fp-card {
           background: #111827;
           border-radius: 16px;
@@ -272,7 +274,12 @@ export default function FeaturedProperties() {
 
         /* ── Responsive ── */
         @media (max-width: 1100px) { .fp-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 580px)  { .fp-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 580px) {
+  .fp-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    
+  }
+}
       `}</style>
 
       <div className="fp-grid">
