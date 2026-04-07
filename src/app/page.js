@@ -1,3 +1,6 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -119,6 +122,17 @@ function PropertyCard({ p }) {
 }
 
 export default function HomePage() {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState("");
+
+  function handleSearch() {
+    const params = new URLSearchParams();
+    if (query) params.set("search", query);
+    if (type) params.set("type", type);
+    router.push(`/listings?${params.toString()}`);
+  }
+
   return (
     <>
     
@@ -695,16 +709,23 @@ export default function HomePage() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                 <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
               </svg>
-              <input type="text" className="search-input" placeholder="Search city, area or property..." />
+              <input
+  type="text"
+  className="search-input"
+  placeholder="Search city, area or property..."
+  value={query}
+  onChange={(e) => setQuery(e.target.value)}
+  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+/>
             </div>
-            <select className="search-select">
-              <option>All Types</option>
-              <option>Hotel</option>
-              <option>Apartment</option>
-              <option>Shortlet</option>
-              <option>For Sale</option>
+            <select className="search-select" value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="">All Types</option>
+              <option value="hotel">Hotel</option>
+              <option value="apartment">Apartment</option>
+              <option value="shortlet">Shortlet</option>
+              <option value="sale">For Sale</option>
             </select>
-            <button className="search-btn">Search</button>
+            <button className="search-btn" onClick={handleSearch}>Search</button>
           </div>
 
           {/* Stats */}

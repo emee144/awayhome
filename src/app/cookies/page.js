@@ -4,7 +4,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const lastUpdated = "12 March 2025";
+const lastUpdated = `12 March ${new Date().getFullYear()}`;
 
 const cookieTypes = [
   {

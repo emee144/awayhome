@@ -420,9 +420,9 @@ export default function ContactPage() {
                 <div>
                   <div className="info-card-label">Phone / WhatsApp</div>
                   <div className="info-card-value">
-                    <a href="tel:+2348012345678">+234 801 234 5678</a>
+                    <a href="tel:+2349167327933">+234 9167327933</a>
                   </div>
-                  <div className="info-card-note">Mon – Fri, 8 am – 6 pm WAT</div>
+                  <div className="info-card-note">Mon - Fri, 8 am - 6 pm WAT</div>
                 </div>
               </div>
 
