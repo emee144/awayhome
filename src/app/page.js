@@ -779,8 +779,7 @@ export default function HomePage() {
           <div className="hero-eyebrow">Nigeria's Property Directory</div>
           <h1>Find Your <em>Perfect</em> Place to Stay or Buy</h1>
           <p className="hero-sub">
-            Browse thousands of verified hotels, apartments, shortlets, and properties
-            for sale across Nigeria. Connect directly with owners — no hidden fees.
+            Browse thousands of verified hotels, apartments, short. No hidden fees.
           </p>
           <div className="hero-ctas">
             <Link href="/listings" className="btn-primary">
@@ -857,7 +856,7 @@ export default function HomePage() {
               <h2 className="section-title">Featured Properties</h2>
               <p className="section-sub">Verified listings from trusted owners and agents across Nigeria.</p>
             </div>
-            <Link href="/listings" className="view-all">View all listings →</Link>
+            <Link href="/listings" className="view-all">View all listings</Link>
           </div>
           <div className="props-grid">
             {featuredProperties.map((p) => (
