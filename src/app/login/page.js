@@ -184,13 +184,13 @@ export default function LoginPage() {
         .lg-field { display: flex; flex-direction: column; gap: 0.4rem; }
         .lg-field label {
           font-size: 0.8rem; font-weight: 600;
-          color: rgba(255,255,255,0.55); letter-spacing: 0.04em;
+          color: white; letter-spacing: 0.04em;
         }
         .lg-field .label-row {
           display: flex; justify-content: space-between; align-items: center;
         }
         .lg-field .label-row a {
-          font-size: 0.78rem; color: #C9A84C; text-decoration: none; font-weight: 500;
+          font-size: 0.78rem; color: white; text-decoration: none; font-weight: 500;
         }
         .lg-field .label-row a:hover { text-decoration: underline; }
 
@@ -203,7 +203,7 @@ export default function LoginPage() {
         .lg-input-wrap .toggle-icon {
           position: absolute; right: 14px; top: 50%;
           transform: translateY(-50%);
-          color: rgba(255,255,255,0.28); cursor: pointer;
+          color: white; cursor: pointer;
           background: none; border: none;
           display: flex; align-items: center; padding: 0;
           transition: color 0.2s;
@@ -216,7 +216,7 @@ export default function LoginPage() {
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 10px;
           padding: 13px 14px 13px 42px;
-          color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+          color: white; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
           outline: none; transition: border-color 0.2s, background 0.2s;
         }
         .lg-input.with-toggle { padding-right: 42px; }
@@ -236,13 +236,13 @@ export default function LoginPage() {
           width: 16px; height: 16px; flex-shrink: 0;
           accent-color: #C9A84C; cursor: pointer;
         }
-        .lg-check span { font-size: 0.82rem; color: rgba(255,255,255,0.45); }
+        .lg-check span { font-size: 0.82rem; color: white; }
 
         /* submit */
         .lg-btn {
           width: 100%;
           background: linear-gradient(135deg, #C9A84C, #E8C878);
-          color: #0A0E1A; font-family: 'DM Sans', sans-serif;
+          color: white; font-family: 'DM Sans', sans-serif;
           font-weight: 700; font-size: 0.95rem;
           padding: 14px; border-radius: 10px; border: none; cursor: pointer;
           display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -275,7 +275,7 @@ export default function LoginPage() {
           background: rgba(255,255,255,0.04);
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 10px; padding: 12px 16px;
-          color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif;
+          color: white; font-family: 'DM Sans', sans-serif;
           font-size: 0.875rem; font-weight: 500; cursor: pointer;
           transition: background 0.2s, border-color 0.2s;
           text-decoration: none;
@@ -290,7 +290,7 @@ export default function LoginPage() {
           text-align: center; font-size: 0.875rem;
           color: rgba(255,255,255,0.4); margin-top: 1.5rem;
         }
-        .lg-signup a { color: #C9A84C; text-decoration: none; font-weight: 600; }
+        .lg-signup a { color: white; text-decoration: none; font-weight: 600; }
         .lg-signup a:hover { text-decoration: underline; }
 
         /* ── Responsive ── */
@@ -319,9 +319,9 @@ export default function LoginPage() {
               </p>
               <div className="lg-stats">
                 {[
-                  { val: "2,750+", lbl: "Listed Properties" },
-                  { val: "12",     lbl: "States Covered"    },
-                  { val: "850+",   lbl: "Verified Agents"   },
+                  { val: "2,000+", lbl: "Listed Properties" },
+                  { val: "37",     lbl: "States Covered"    },
+                  { val: "50+",   lbl: "Verified Agents"   },
                 ].map((s) => (
                   <div className="lg-stat" key={s.lbl}>
                     <span className="val">{s.val}</span>
@@ -332,11 +332,10 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* ── Right form panel ── */}
           <div className="lg-form-side">
             <div className="lg-card">
 
-              {/* Breadcrumb */}
+
               <div className="lg-breadcrumb">
                 <Link href="/">Home</Link>
                 <span>›</span>

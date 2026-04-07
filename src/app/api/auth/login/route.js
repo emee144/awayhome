@@ -13,30 +13,40 @@ export async function POST(req) {
 
     await connectDB()
 
-    // find user
     const user = await User.findOne({ email }).select("+password")
     if (!user) {
       return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 })
     }
+
     const isMatch = await user.comparePassword(password)
     if (!isMatch) {
       return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 })
     }
 
-    // create JWT
+    if (!user.isVerified) {
+      return NextResponse.json(
+        {
+          error: "Please verify your email before logging in.",
+          action: "RESEND_VERIFICATION",
+          email: user.email
+        },
+        { status: 403 }
+      )
+    }
+
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     )
 
-    // set HTTP only cookie
     const response = NextResponse.json({ message: 'Login successful' }, { status: 200 })
+
     response.cookies.set('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7, 
       path: '/',
     })
 

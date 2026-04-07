@@ -154,13 +154,12 @@ const categories = [
 ];
 
 const stats = [
-  { value: "2,750+", label: "Listed Properties" },
-  { value: "12", label: "States Covered" },
-  { value: "850+", label: "Verified Agents" },
+  { value: "2,000+", label: "Listed Properties" },
+  { value: "37", label: "States Covered" },
+  { value: "50+", label: "Verified Agents" },
   { value: "100%", label: "Free to Browse" },
 ];
 
-// ─── Badge color map ──────────────────────────────────────────────────────────
 const badgeColors = {
   Hotel: { bg: "#1a2a4a", color: "#7eb8f7" },
   "For Rent": { bg: "#0d2d1a", color: "#5ddb90" },
@@ -168,7 +167,6 @@ const badgeColors = {
   Shortlet: { bg: "#2d1a2d", color: "#d47ddb" },
 };
 
-// ─── Property Card ────────────────────────────────────────────────────────────
 function PropertyCard({ p }) {
   const badge = badgeColors[p.badge] || { bg: "#1a1a1a", color: "#999" };
 
@@ -218,7 +216,6 @@ function PropertyCard({ p }) {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   return (
     <>

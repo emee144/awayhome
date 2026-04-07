@@ -212,10 +212,11 @@ export default function Footer() {
           border-radius: 6px;
           padding: 6px 14px;
           font-size: 0.78rem;
-          color: #C9A84C;
+          color: white;
           margin-bottom: 1.5rem;
         }
         .footer-badge svg { width: 14px; height: 14px; }
+        .footer-badge p { color: white; }
 
         @media (max-width: 900px) {
           .footer-top {

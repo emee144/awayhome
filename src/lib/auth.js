@@ -14,8 +14,6 @@ export async function getCurrentUser() {
       console.error("JWT_SECRET not set");
       return null;
     }
-
-    // Decode JWT
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);

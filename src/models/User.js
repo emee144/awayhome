@@ -40,6 +40,10 @@ isAdmin: {
   type: Boolean,
   default: false,
 },
+verifyToken: String,
+verifyTokenExpires: Date,
+isVerified: { type: Boolean, default: false },
+
 }, { timestamps: true })
 
 UserSchema.pre('save', async function () {

@@ -174,7 +174,7 @@ export default function SignupPage() {
         .su-field { display: flex; flex-direction: column; gap: 0.4rem; }
         .su-field label {
           font-size: 0.8rem; font-weight: 600;
-          color: rgba(255,255,255,0.55); letter-spacing: 0.04em;
+          color: white; letter-spacing: 0.04em;
         }
         .su-input-wrap { position: relative; }
         .su-input-wrap .field-icon {
@@ -290,7 +290,7 @@ export default function SignupPage() {
           display: flex; align-items: center; gap: 6px;
           font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-bottom: 1.75rem;
         }
-        .su-breadcrumb a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+        .su-breadcrumb a { color: white; text-decoration: none; transition: color 0.2s; }
         .su-breadcrumb a:hover { color: #C9A84C; }
         .su-breadcrumb span { color: rgba(255,255,255,0.15); }
 
@@ -326,7 +326,7 @@ export default function SignupPage() {
             <div className="su-breadcrumb">
               <Link href="/">Home</Link>
               <span>›</span>
-              <span style={{ color: "rgba(255,255,255,0.55)" }}>Create Account</span>
+              <span style={{ color: "white" }}>Create Account</span>
             </div>
 
             {/* ── Success State ── */}
@@ -511,12 +511,12 @@ export default function SignupPage() {
                       </button>
                     </div>
                     {form.confirmPassword && form.password !== form.confirmPassword && (
-                      <div style={{ fontSize: "0.75rem", color: "#f46450", marginTop: "4px" }}>
+                      <div style={{ fontSize: "0.75rem", color: "white", marginTop: "4px" }}>
                         Passwords do not match
                       </div>
                     )}
                     {form.confirmPassword && form.password === form.confirmPassword && form.password && (
-                      <div style={{ fontSize: "0.75rem", color: "#5ddb90", marginTop: "4px" }}>
+                      <div style={{ fontSize: "0.75rem", color: "white", marginTop: "4px" }}>
                         ✓ Passwords match
                       </div>
                     )}
@@ -546,7 +546,7 @@ export default function SignupPage() {
                 </form>
 
                 <div className="su-divider" style={{ margin: "1.5rem 0 1rem" }}>
-                  <span /><small>Already have an account?</small><span />
+                  <span /><small style={{color: 'white'}}>Already have an account?</small><span />
                 </div>
 
                 <p className="su-login">

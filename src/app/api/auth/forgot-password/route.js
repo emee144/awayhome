@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import {connectDB} from "@/lib/mongodb";
 import User from "@/models/User";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendEmail } from "@/lib/email";
 
 export async function POST(request) {
   try {
@@ -35,10 +33,9 @@ export async function POST(request) {
       // ── 5. Send email via Resend ───────────────────────────────────────────
       const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
 
-      await resend.emails.send({
-        from:    "AwayHome <onboarding@resend.dev>",
-        to:      user.email,
-        subject: "Reset your password – AwayHome",
+      await sendEmail({
+           to: email,
+        subject: "Reset your password - AwayHome",
         html: `
           <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
             <h2 style="color: #C9A84C;">Reset Your Password</h2>

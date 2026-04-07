@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { Resend } from 'resend'
 import { connectDB } from '@/lib/mongodb'
 import User from '@/models/User'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { sendEmail } from '@/lib/email'
 
 export async function POST(req) {
   try {
@@ -17,7 +15,6 @@ export async function POST(req) {
       agree
     } = await req.json()
 
-    // ✅ Validation
     if (!name || !email || !password || !confirmPassword) {
       return NextResponse.json(
         { message: 'All required fields must be filled' },
@@ -48,7 +45,6 @@ export async function POST(req) {
 
     await connectDB()
 
-    // ✅ Check existing user
     const existingUser = await User.findOne({ email })
     if (existingUser) {
       return NextResponse.json(
@@ -57,25 +53,19 @@ export async function POST(req) {
       )
     }
 
- 
     const verifyToken = crypto.randomBytes(32).toString('hex')
-
 
     const user = await User.create({
       name,
       email,
       phone,
-      password, 
+      password,
       isVerified: false,
       verifyToken,
     })
 
-
     const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/verify-email?token=${verifyToken}`
-
-    // ✅ Send email
-    await resend.emails.send({
-      from: 'Your App <onboarding@resend.dev>',
+    await sendEmail({
       to: email,
       subject: 'Verify your email',
       html: `
@@ -84,6 +74,9 @@ export async function POST(req) {
         <a href="${verifyUrl}" style="padding:10px 20px;background:black;color:white;text-decoration:none;border-radius:5px;">
           Verify Email
         </a>
+        <p style="font-size:12px;color:#888;margin-top:20px;">
+          This is an automated message. Please do not reply.
+        </p>
       `,
     })
 
