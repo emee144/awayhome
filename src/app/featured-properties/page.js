@@ -147,7 +147,7 @@ export default function FeaturedProperties() {
   return (
     <>
       <style>{`
-        /* ── Cards ── */
+       
         .fp-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 250px));
