@@ -182,7 +182,7 @@ export default function TermsPage() {
             <div className="tc-eyebrow">Legal</div>
             <h1>Terms of <em>Service</em></h1>
             <p className="tc-hero-meta">
-              Last updated: <strong>January 1, 2025</strong>
+              Last updated: <strong>{new Date().getFullYear()}</strong>
             </p>
           </div>
         </div>
