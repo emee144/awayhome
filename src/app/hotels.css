@@ -33,8 +33,9 @@
   }
   .ht-eyebrow-dot {
     width: 6px; height: 6px; border-radius: 50%; background: #C9A84C;
-    animation: htpulse 2s infinite;
+    animation: htpulse 2s infinite; color: white; 
   }
+  .ht-eyebrow p { color: white; }
   @keyframes htpulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
   .ht-hero h1 {
     font-family: 'Playfair Display', serif;
@@ -51,7 +52,7 @@
   }
   .ht-stat { text-align: center; }
   .ht-stat-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: #C9A84C; }
-  .ht-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+  .ht-stat-label { font-size: 0.72rem; color: white; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
 
   /* ── Sticky bar ── */
   .ht-bar {
@@ -101,7 +102,7 @@
   .ht-search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 340px; }
   .ht-search-icon {
     position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    color: rgba(255,255,255,0.28); pointer-events: none;
+    color: white; pointer-events: none;
   }
   .ht-search {
     width: 100%; padding: 10px 14px 10px 38px;
@@ -109,7 +110,7 @@
     border-radius: 10px; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.875rem;
     outline: none; transition: border-color 0.2s, background 0.2s;
   }
-  .ht-search::placeholder { color: rgba(255,255,255,0.22); }
+  .ht-search::placeholder { color: white; }
   .ht-search:focus { border-color: rgba(201,168,76,0.5); background: rgba(255,255,255,0.08); }
 
   /* Star filter tabs */
@@ -122,7 +123,7 @@
     display: flex; align-items: center; gap: 4px;
     padding: 6px 12px; border-radius: 7px; border: none; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
-    color: rgba(255,255,255,0.4); background: none; transition: all 0.2s; white-space: nowrap;
+    color: white; background: none; transition: all 0.2s; white-space: nowrap;
   }
   .ht-star-tab:hover { color: rgba(255,255,255,0.72); }
   .ht-star-tab.active { background: rgba(201,168,76,0.15); color: #C9A84C; border: 1px solid rgba(201,168,76,0.3); }
@@ -133,12 +134,12 @@
     padding: 9px 15px; border-radius: 10px; cursor: pointer;
     font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
     border: 1px solid rgba(255,255,255,0.11); background: rgba(255,255,255,0.05);
-    color: rgba(255,255,255,0.5); transition: all 0.2s;
+    color: white; transition: all 0.2s;
   }
   .ht-filter-btn:hover { border-color: rgba(201,168,76,0.3); color: rgba(255,255,255,0.8); }
   .ht-filter-btn.active { border-color: #C9A84C; background: rgba(201,168,76,0.1); color: #C9A84C; }
   .ht-filter-badge {
-    background: #C9A84C; color: #0A0E1A;
+    background: #C9A84C; color: white;
     font-size: 0.62rem; font-weight: 700;
     width: 17px; height: 17px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -148,7 +149,7 @@
   .ht-sort {
     padding: 9px 12px; border-radius: 10px;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.11);
-    color: rgba(255,255,255,0.5); font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
     outline: none; cursor: pointer; transition: border-color 0.2s;
   }
   .ht-sort option { background: #0F1525; color: #fff; }
@@ -181,12 +182,12 @@
     border-radius: 10px; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
     outline: none; transition: border-color 0.2s;
   }
-  .ht-filter-input::placeholder { color: rgba(255,255,255,0.22); }
+  .ht-filter-input::placeholder { color: white; }
   .ht-filter-select option { background: #0F1525; }
   .ht-filter-input:focus, .ht-filter-select:focus { border-color: rgba(201,168,76,0.45); }
   .ht-clear-btn {
     background: none; border: none; cursor: pointer;
-    color: rgba(240,100,80,0.7); font-size: 0.8rem; font-family: 'DM Sans', sans-serif;
+    color: white; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;
     font-weight: 600; padding: 0; transition: color 0.2s;
     display: flex; align-items: center; gap: 5px;
   }
@@ -195,16 +196,16 @@
   /* ── Breadcrumb ── */
   .ht-breadcrumb {
     max-width: 1280px; margin: 0 auto; padding: 1.25rem 2rem 0;
-    display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: rgba(255,255,255,0.28);
+    display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: white;
   }
-  .ht-breadcrumb a { color: rgba(255,255,255,0.28); text-decoration: none; transition: color 0.2s; }
+  .ht-breadcrumb a { color: white; text-decoration: none; transition: color 0.2s; }
   .ht-breadcrumb a:hover { color: #C9A84C; }
-  .ht-breadcrumb-sep { color: rgba(255,255,255,0.13); }
+  .ht-breadcrumb-sep { color: white; }
 
   /* ── Content ── */
   .ht-content { max-width: 1280px; margin: 0 auto; padding: 2rem 2rem 5rem; width: 100%; flex: 1; }
-  .ht-count { font-size: 0.82rem; color: rgba(255,255,255,0.32); margin-bottom: 1.5rem; }
-  .ht-count strong { color: rgba(255,255,255,0.6); }
+  .ht-count { font-size: 0.82rem; color: white; margin-bottom: 1.5rem; }
+  .ht-count strong { color: white; }
 
   /* ── Grid ── */
   .ht-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.3rem; }
@@ -233,7 +234,7 @@
   }
   .ht-card-img-count {
     position: absolute; top: 12px; right: 12px;
-    background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.5); color: white;
     font-size: 0.68rem; padding: 3px 8px; border-radius: 5px; backdrop-filter: blur(4px);
   }
 
@@ -247,7 +248,7 @@
   .ht-card-noimg {
     width: 100%; height: 100%;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 10px; color: rgba(255,255,255,0.12);
+    gap: 10px; color: white;
   }
   .ht-card-noimg span { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; }
 
@@ -259,19 +260,19 @@
   }
   .ht-card-loc {
     display: flex; align-items: center; gap: 5px;
-    font-size: 0.78rem; color: rgba(255,255,255,0.32); margin-bottom: 10px;
+    font-size: 0.78rem; color: white; margin-bottom: 10px;
   }
   .ht-card-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .ht-pill {
     font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
-    padding: 3px 9px; border-radius: 100px;
+    padding: 3px 9px; border-radius: 10px;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.45);
+    color: white;
   }
   .ht-pill.gold { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.28); color: #C9A84C; }
 
   .ht-card-desc {
-    font-size: 0.8rem; color: rgba(255,255,255,0.28); line-height: 1.6;
+    font-size: 0.8rem; color: white; line-height: 1.6;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-clamp: 2; 
     margin-bottom: 14px;
   }
@@ -287,7 +288,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.45);
+  color: white;
   background: none;
   border: none;
   padding: 0;
@@ -312,9 +313,9 @@
   .ht-amenity-chip {
     font-size: 0.68rem; padding: 2px 8px; border-radius: 5px;
     background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.35);
+    color: white;
   }
-  .ht-amenity-more { color: rgba(201,168,76,0.6); font-size: 0.68rem; padding: 2px 6px; }
+  .ht-amenity-more { color: white; font-size: 0.68rem; padding: 2px 6px; }
 
   /* Price row */
   .ht-card-price-row {
@@ -322,10 +323,10 @@
     padding-top: 13px; border-top: 1px solid rgba(255,255,255,0.06);
   }
   .ht-card-price-left { display: flex; align-items: baseline; gap: 5px; }
-  .ht-card-price { font-size: 1.15rem; font-weight: 700; color: #C9A84C; }
-  .ht-card-price-sub { font-size: 0.72rem; color: rgba(255,255,255,0.28); }
+  .ht-card-price { font-size: 1.15rem; font-weight: 700; color: white; }
+  .ht-card-price-sub { font-size: 0.72rem; color: white; }
   .ht-card-rooms {
-    font-size: 0.72rem; color: rgba(255,255,255,0.28);
+    font-size: 0.72rem; color: white;
     display: flex; align-items: center; gap: 4px;
   }
 
@@ -344,9 +345,9 @@
 
   /* ── Empty / error ── */
   .ht-empty { grid-column: 1 / -1; text-align: center; padding: 6rem 2rem; }
-  .ht-empty-icon { margin: 0 auto 1.5rem; color: rgba(255,255,255,0.1); }
-  .ht-empty h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: rgba(255,255,255,0.35); margin-bottom: 0.5rem; }
-  .ht-empty p { font-size: 0.875rem; color: rgba(255,255,255,0.22); margin-bottom: 1.5rem; }
+  .ht-empty-icon { margin: 0 auto 1.5rem; color: white; }
+  .ht-empty h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: white; margin-bottom: 0.5rem; }
+  .ht-empty p { font-size: 0.875rem; color: white; margin-bottom: 1.5rem; }
   .ht-empty-btn {
     display: inline-flex; align-items: center; gap: 7px;
     background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);

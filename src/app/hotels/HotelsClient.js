@@ -297,7 +297,7 @@ export default function HotelsPage() {
             </div>
             <h1>Find <em>Exceptional</em> Hotels</h1>
             <p>
-              From boutique guesthouses to 5-star luxury. Browse verified hotels
+              From guesthouses to 5-star luxury. Browse verified hotels
               across all 36 states and the FCT.
             </p>
             {pagination && !loading && (
