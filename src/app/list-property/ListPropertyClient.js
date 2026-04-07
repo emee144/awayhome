@@ -64,8 +64,9 @@ const SHARED_CSS = `
     background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.28);
     border-radius: 100px; padding: 5px 16px;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: #C9A84C; margin-bottom: 1.25rem;
+    text-transform: uppercase; color: white; margin-bottom: 1.25rem;
   }
+    .lp-eyebrow p { color: white}
   .lp-eyebrow::before {
     content: ''; width: 6px; height: 6px; border-radius: 50%;
     background: #C9A84C; animation: pulse 2s infinite;
@@ -85,7 +86,7 @@ const SHARED_CSS = `
   }
   .lp-type-label {
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 1rem;
+    text-transform: uppercase; color: white; margin-bottom: 1rem;
     text-align: center;
   }
   .lp-type-tabs {
@@ -149,7 +150,7 @@ const SHARED_CSS = `
 
   .lp-field label {
     font-size: 0.8rem; font-weight: 600;
-    color: rgba(255,255,255,0.65); letter-spacing: 0.04em;
+    color: white; letter-spacing: 0.04em;
   }
   .lp-field label .req { color: #C9A84C; margin-left: 2px; }
 
@@ -300,8 +301,8 @@ const SHARED_CSS = `
     border-top: 1px solid rgba(255,255,255,0.06);
     display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   }
-  .lp-submit-note { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
-  .lp-submit-note strong { color: rgba(255,255,255,0.6); }
+  .lp-submit-note { font-size: 0.8rem; color: white; }
+  .lp-submit-note strong { color: gold; }
 
   .lp-btn {
     background: linear-gradient(135deg, #C9A84C, #E8C878);
@@ -341,7 +342,7 @@ const SHARED_CSS = `
     display: flex; align-items: center; gap: 6px;
     font-size: 0.78rem; color: rgba(255,255,255,0.3);
   }
-  .lp-breadcrumb a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .lp-breadcrumb a { color: white; text-decoration: none; transition: color 0.2s; }
   .lp-breadcrumb a:hover { color: #C9A84C; }
   .lp-breadcrumb span { color: rgba(255,255,255,0.15); }
 
@@ -1293,7 +1294,7 @@ export default function ListPropertyPage() {
         <div className="lp-breadcrumb">
           <Link href="/">Home</Link>
           <span>›</span>
-          <span style={{ color: "rgba(255,255,255,0.55)" }}>List a Property</span>
+          <span style={{ color: "white" }}>List a Property</span>
         </div>
 
         {/* Type selector */}

@@ -938,7 +938,7 @@ export default function HomePage() {
           </p>
           <div className="hero-ctas">
             <Link href="/list-property" className="btn-primary">
-              Get Listed Today →
+              Get Listed Today
             </Link>
             <Link href="/how-it-works" className="btn-outline">
               Learn More

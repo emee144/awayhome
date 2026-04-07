@@ -153,7 +153,7 @@ export default function Footer() {
         }
         .footer-col ul a {
           font-size: 0.875rem;
-          color: pink;
+          color: white;
           text-decoration: none;
           transition: color 0.2s, padding-left 0.2s;
           display: block;

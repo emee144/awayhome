@@ -434,13 +434,6 @@ export default function LoginPage() {
                   )}
                 </button>
               </form>
-
-              {/* Divider */}
-              <div className="lg-divider">
-                <span /><small>or continue with</small><span />
-              </div>
-
-              {/* Sign up link */}
               <p className="lg-signup">
                 Don't have an account?{" "}
                 <Link href="/signup">Register</Link>
