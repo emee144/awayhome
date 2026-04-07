@@ -132,7 +132,7 @@ const PAGE_CSS = `
   }
   .rp-hero h1 em { font-style: italic; color: #C9A84C; }
   .rp-hero-sub {
-    font-size: 0.95rem; color: rgba(255,255,255,0.45);
+    font-size: 0.95rem; color: white;
     line-height: 1.7; max-width: 500px;
   }
   .rp-hero-sub strong { color: #C9A84C; font-weight: 600; }
@@ -141,11 +141,11 @@ const PAGE_CSS = `
   .rp-breadcrumb {
     max-width: 1200px; margin: 0 auto; padding: 1.25rem 2rem 0;
     display: flex; align-items: center; gap: 6px;
-    font-size: 0.77rem; color: rgba(255,255,255,0.3);
+    font-size: 0.77rem; color: white;
   }
-  .rp-breadcrumb a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .rp-breadcrumb a { color: white; text-decoration: none; transition: color 0.2s; }
   .rp-breadcrumb a:hover { color: #C9A84C; }
-  .rp-breadcrumb span { color: rgba(255,255,255,0.15); }
+  .rp-breadcrumb span { color: white; }
 
   /* ── Body ── */
   .rp-body { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2rem 5rem; width: 100%; }
@@ -166,7 +166,7 @@ const PAGE_CSS = `
     border-radius: 12px; padding: 0 16px 0 44px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.88rem; font-weight: 500;
-    color: #ffffff; outline: none;
+    color: white; outline: none;
     transition: border-color 0.2s, background 0.2s;
   }
   .rp-search::placeholder { color: rgba(255,255,255,0.25); }
@@ -196,11 +196,11 @@ const PAGE_CSS = `
     border-radius: 12px; padding: 0 38px 0 14px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.85rem; font-weight: 600;
-    color: #ffffff; outline: none;
+    color: white; outline: none;
     appearance: none; cursor: pointer; transition: border-color 0.2s;
   }
   .rp-select:focus { border-color: rgba(201,168,76,0.5); }
-  .rp-select option { background: #0F1525; color: #ffffff; }
+  .rp-select option { background: #0F1525; color: white; }
   .rp-select-chevron {
     position: absolute; right: 12px; top: 50%;
     transform: translateY(-50%);
@@ -214,7 +214,7 @@ const PAGE_CSS = `
     border-radius: 12px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.85rem; font-weight: 600;
-    color: #ffffff; cursor: pointer;
+    color: white; cursor: pointer;
     display: flex; align-items: center; gap: 8px;
     transition: border-color 0.2s, background 0.2s; white-space: nowrap;
   }
@@ -227,7 +227,7 @@ const PAGE_CSS = `
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: rgba(255,255,255,0.4); transition: all 0.2s;
+    cursor: pointer; color: white; transition: all 0.2s;
   }
   .rp-view-btn:hover { border-color: rgba(201,168,76,0.35); color: #ffffff; }
   .rp-view-btn-active {
@@ -238,7 +238,7 @@ const PAGE_CSS = `
   .rp-badge-count {
     display: inline-flex; align-items: center; justify-content: center;
     width: 18px; height: 18px;
-    background: #C9A84C; color: #0A0E1A;
+    background: #C9A84C; color: white;
     border-radius: 100px; font-size: 10px; font-weight: 800;
   }
 
@@ -261,7 +261,7 @@ const PAGE_CSS = `
   .rp-filter-label {
     font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.09em; text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: white;
   }
   .rp-filter-input {
     width: 100%; height: 42px;
@@ -270,7 +270,7 @@ const PAGE_CSS = `
     border-radius: 10px; padding: 0 13px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.85rem; font-weight: 500;
-    color: #ffffff; outline: none; transition: border-color 0.2s;
+    color: white; outline: none; transition: border-color 0.2s;
   }
   .rp-filter-input::placeholder { color: rgba(255,255,255,0.2); }
   .rp-filter-input:focus { border-color: rgba(201,168,76,0.5); }
@@ -281,7 +281,7 @@ const PAGE_CSS = `
     border-radius: 10px; padding: 0 34px 0 13px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.85rem; font-weight: 500;
-    color: #ffffff; outline: none;
+    color: white; outline: none;
     appearance: none; cursor: pointer; transition: border-color 0.2s;
   }
   .rp-filter-select:focus { border-color: rgba(201,168,76,0.5); }
@@ -371,12 +371,12 @@ const PAGE_CSS = `
     color: rgba(255,255,255,0.35);
     letter-spacing: 0.03em; margin-bottom: 7px;
   }
-  .rp-card-location svg { color: #C9A84C; }
+  .rp-card-location svg { color: white; }
 
   .rp-card-title {
     font-family: 'Playfair Display', serif;
     font-size: 1rem; font-weight: 700;
-    color: #ffffff; line-height: 1.3; margin-bottom: 8px;
+    color: white; line-height: 1.3; margin-bottom: 8px;
     display: -webkit-box; -webkit-line-clamp: 2;
     -webkit-box-orient: vertical; overflow: hidden;
   }
@@ -386,7 +386,7 @@ const PAGE_CSS = `
     display: inline-block;
     font-size: 0.7rem; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    color: white;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.08);
     padding: 3px 10px; border-radius: 100px; margin-bottom: 14px;
@@ -394,7 +394,7 @@ const PAGE_CSS = `
 
   .rp-card-stats {
     display: flex; gap: 14px; margin-bottom: 14px;
-    color: rgba(255,255,255,0.45); font-size: 0.8rem; font-weight: 500;
+    color: white; font-size: 0.8rem; font-weight: 500;
   }
   .rp-card-stat { display: flex; align-items: center; gap: 5px; }
 
@@ -403,13 +403,13 @@ const PAGE_CSS = `
   .rp-card-price {
     font-family: 'Playfair Display', serif;
     font-size: 1.3rem; font-weight: 800;
-    color: #ffffff; letter-spacing: -0.02em;
+    color: white; letter-spacing: -0.02em;
   }
   .rp-card-row .rp-card-price { font-size: 1.5rem; }
   .rp-card-price-label {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.75rem; font-weight: 600;
-    color: rgba(255,255,255,0.35); margin-left: 2px;
+    color: white; margin-left: 2px;
   }
 
   .rp-card-cta {

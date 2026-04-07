@@ -454,7 +454,7 @@ export default function TermsPage() {
                 If you have questions about these Terms of Service, please contact us:
               </p>
               <div className="tc-contact-card">
-                <p>Email: <a href="mailto:legal@yourplatform.ng">legal@yourplatform.ng</a></p>
+                <p>Email: <a href="mailto:contact@awayhomehq.com">contact@awayhomehq.com</a></p>
                 <p>We aim to respond to all legal enquiries within 14 working days.</p>
               </div>
               <div className="tc-links">

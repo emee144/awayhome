@@ -373,7 +373,7 @@ export default function PrivacyPage() {
                 please get in touch:
               </p>
               <div className="pp-contact-card">
-                <p>Email: <a href="mailto:privacy@awayhome.com">privacy@awayhome.com</a></p>
+                <p>Email: <a href="mailto:contact@awayhomehq.com">contact@awayhomehq.com</a></p>
                 <p>We aim to respond to all privacy enquiries within 14 working days.</p>
               </div>
             </section>
