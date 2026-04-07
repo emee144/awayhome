@@ -212,18 +212,18 @@ export default function DisclaimerPage() {
           font-weight: 600;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: #C9A84C;
+          color: white;
           margin-bottom: 1.5rem;
         }
         .hero h1 {
           font-family: 'Playfair Display', Georgia, serif;
           font-size: clamp(2.3rem, 4.5vw, 3.6rem);
           font-weight: 700;
-          color: #FFFFFF;
+          color: white;
           line-height: 1.1;
           margin-bottom: 1.1rem;
         }
-        .hero h1 em { font-style: italic; color: #C9A84C; }
+        .hero h1 em { font-style: italic; color: white; }
         .hero-sub {
           font-size: 1.02rem;
           color: rgba(255,255,255,0.72);
@@ -243,9 +243,9 @@ export default function DisclaimerPage() {
           align-items: center;
           gap: 6px;
           font-size: 0.8rem;
-          color: rgba(255,255,255,0.42);
+          color: white;
         }
-        .meta-chip svg { color: #C9A84C; opacity: 0.8; }
+        .meta-chip svg { color: white; opacity: 0.8; }
 
         /* ── Highlight strip ── */
         .highlights {
@@ -280,18 +280,18 @@ export default function DisclaimerPage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #C9A84C;
+          color: white;
           margin-top: 2px;
         }
         .hi-label {
           font-size: 0.88rem;
           font-weight: 600;
-          color: #FFFFFF;
+          color: white;
           margin-bottom: 3px;
         }
         .hi-desc {
           font-size: 0.8rem;
-          color: rgba(255,255,255,0.52);
+          color: white;
           line-height: 1.6;
         }
 
@@ -323,13 +323,13 @@ export default function DisclaimerPage() {
           font-weight: 600;
           letter-spacing: 0.11em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.35);
+          color: white;
           margin-bottom: 0.85rem;
         }
         .toc a {
           display: block;
           font-size: 0.81rem;
-          color: rgba(255,255,255,0.52);
+          color: white;
           text-decoration: none;
           padding: 5px 8px;
           border-radius: 7px;
@@ -351,7 +351,7 @@ export default function DisclaimerPage() {
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.3);
+          color: white;
           margin-bottom: 0.6rem;
         }
         .toc-related-link {
@@ -359,13 +359,12 @@ export default function DisclaimerPage() {
           align-items: center;
           gap: 5px;
           font-size: 0.8rem;
-          color: #C9A84C;
+          color: white;
           text-decoration: none;
           padding: 4px 0;
         }
         .toc-related-link:hover { text-decoration: underline; }
 
-        /* ── Disclaimer blocks ── */
         .disclaimer-block {
           scroll-margin-top: 7rem;
           background: #111827;
@@ -393,22 +392,22 @@ export default function DisclaimerPage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #C9A84C;
+          color: white;
         }
         .block-title {
           font-family: 'Playfair Display', serif;
           font-size: 1.15rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: white;
           line-height: 1.25;
         }
         .block-body {
           font-size: 0.88rem;
-          color: rgba(255,255,255,0.68);
+          color: white;
           line-height: 1.85;
           white-space: pre-line;
         }
-        .block-body strong { color: #FFFFFF; font-weight: 600; }
+        .block-body strong { color: white; font-weight: 600; }
 
         /* Bullet list styling inside block body */
         .bullet-list {
@@ -423,7 +422,7 @@ export default function DisclaimerPage() {
           align-items: flex-start;
           gap: 0.6rem;
           font-size: 0.88rem;
-          color: rgba(255,255,255,0.68);
+          color: white;
           line-height: 1.65;
         }
         .bullet-dot {
@@ -447,16 +446,16 @@ export default function DisclaimerPage() {
           margin-bottom: 1.25rem;
         }
         .alert-icon {
-          color: #C9A84C;
+          color: white;
           min-width: 20px;
           margin-top: 2px;
         }
         .alert-text {
           font-size: 0.88rem;
-          color: rgba(255,255,255,0.78);
+          color: white;
           line-height: 1.72;
         }
-        .alert-text strong { color: #FFFFFF; font-weight: 600; }
+        .alert-text strong { color: white; font-weight: 600; }
 
         /* ── Contact footer strip ── */
         .contact-strip {
@@ -477,19 +476,19 @@ export default function DisclaimerPage() {
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #C9A84C;
+          color: white;
           margin-bottom: 0.35rem;
         }
         .contact-strip-title {
           font-family: 'Playfair Display', serif;
           font-size: 1.2rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: white;
           margin-bottom: 0.35rem;
         }
         .contact-strip-sub {
           font-size: 0.84rem;
-          color: rgba(255,255,255,0.52);
+          color: white;
           line-height: 1.6;
         }
         .contact-btns {
@@ -524,7 +523,7 @@ export default function DisclaimerPage() {
           gap: 7px;
           background: rgba(255,255,255,0.06);
           border: 1px solid rgba(255,255,255,0.11);
-          color: #FFFFFF;
+          color: white;
           font-weight: 600;
           font-size: 0.88rem;
           padding: 11px 22px;
@@ -679,12 +678,12 @@ export default function DisclaimerPage() {
                   </p>
                 </div>
                 <div className="contact-btns">
-                  <a href="mailto:contact@awayhome.ng" className="btn-gold">
+                  <a href="mailto:contact@awayhomehq.com" className="btn-gold">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" width="15" height="15">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                       <polyline points="22,6 12,13 2,6" />
                     </svg>
-                    contact@awayhome.ng
+                    contact@awayhomehq.com
                   </a>
                   <Link href="/contact" className="btn-ghost">
                     Contact page

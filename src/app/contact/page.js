@@ -653,7 +653,7 @@ export default function ContactPage() {
               },
               {
                 q: "Which states are currently covered?",
-                a: "We currently list properties across Lagos, Abuja, Rivers, Kano, Ogun, Oyo, Delta, Anambra, Enugu, Kaduna, Plateau, and Cross River.",
+                a: "We currently list properties across Federation.",
               },
             ].map((f, i) => (
               <div className="faq-card" key={i}>
