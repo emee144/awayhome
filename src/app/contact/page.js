@@ -436,7 +436,7 @@ export default function ContactPage() {
                 <div>
                   <div className="info-card-label">Email</div>
                   <div className="info-card-value">
-                    <a href="mailto:contact@awayhome.com">contact@awayhome.com</a>
+                    <a href="mailto:contact@awayhomehq.com">contact@awayhomehq.com</a>
                   </div>
                   <div className="info-card-note">We reply immediately</div>
                 </div>
@@ -476,7 +476,7 @@ export default function ContactPage() {
                   {[
                     {
                       label: "Twitter / X",
-                      href: "https://twitter.com/awayhomeng",
+                      href: "https://twitter.com/awayhomehq.com",
                       icon: (
                         <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
                           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -485,7 +485,7 @@ export default function ContactPage() {
                     },
                     {
                       label: "Instagram",
-                      href: "https://instagram.com/awayhomeng",
+                      href: "https://instagram.com/awayhomehq.com",
                       icon: (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
                           <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -496,7 +496,7 @@ export default function ContactPage() {
                     },
                     {
                       label: "Facebook",
-                      href: "https://facebook.com/awayhomeng",
+                      href: "https://facebook.com/awayhomehq.com",
                       icon: (
                         <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
                           <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
@@ -649,7 +649,7 @@ export default function ContactPage() {
               },
               {
                 q: "How do I report an incorrect or suspicious listing?",
-                a: <>Use the 'Report a listing' option above or email <a href="mailto:contact@awayhome.com">contact@awayhome.com</a>. We review all reports within 24 hours.</>,
+                a: <>Use the 'Report a listing' option above or email <a href="mailto:contact@awayhomehq.com">contact@awayhomehq.com</a>. We review all reports within 24 hours.</>,
               },
               {
                 q: "Which states are currently covered?",
