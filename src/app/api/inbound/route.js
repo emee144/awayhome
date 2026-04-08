@@ -1,66 +1,22 @@
 export async function POST(req) {
   try {
-    const data = await req.json();
+    const event = await req.json();
 
-    const email = {
-      from: data.from,
-      to: data.to,
-      subject: data.subject,
-      text: data.text,
-      html: data.html,
-      headers: data.headers,
-    };
+    console.log("FULL EVENT:", event);
 
-    const toAddress = Array.isArray(email.to) ? email.to[0] : email.to;
-
-    console.log("FULL EMAIL DATA:", data);
-
-    // Validate sender
-    if (!email.from) {
-      return new Response("Missing sender", { status: 400 });
-    }
-
-    // Only accept emails sent to your domain
-    if (!toAddress || !toAddress.endsWith("@awayhomehq.com")) {
+    // Only handle incoming emails
+    if (event.type !== "email.received") {
       return new Response("Ignored", { status: 200 });
     }
 
-    console.log("EMAIL RECEIVED:", {
-      to: toAddress,
-      from: email.from,
-      subject: email.subject,
-      text: email.text,
-    });
+    const email = event.data;
 
-    // Optional routing logic
-    if (toAddress.startsWith("contact@")) {
-      console.log("Handling contact message");
-    } else if (toAddress.startsWith("support@")) {
-      console.log("Handling support message");
-    } else {
-      console.log("Handling general inbox");
-    }
+    const from = email.from;
+    const to = email.to?.[0];
+    const subject = email.subject;
 
-    // Auto-reply to sender
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "Away Home <noreply@awayhomehq.com>",
-        to: email.from,
-        subject: "We received your message",
-        html: `
-          <p>Hi,</p>
-          <p>Thanks for contacting Away Home. We've received your message and will get back to you shortly.</p>
-          <p>— Away Home Team</p>
-        `,
-      }),
-    });
+    console.log("EMAIL RECEIVED:", { from, to, subject });
 
-    // ✅ Forward to your Gmail
     await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -70,21 +26,40 @@ export async function POST(req) {
       body: JSON.stringify({
         from: "Away Home <noreply@awayhomehq.com>",
         to: "anuemmanuela1@gmail.com",
-        subject: `New email from ${email.from}: ${email.subject}`,
+        subject: `New email from ${from}: ${subject}`,
         html: `
-          <p><strong>From:</strong> ${email.from}</p>
-          <p><strong>To:</strong> ${toAddress}</p>
-          <p><strong>Subject:</strong> ${email.subject}</p>
+          <p><strong>From:</strong> ${from}</p>
+          <p><strong>To:</strong> ${to}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
           <hr/>
-          <p>${email.text || "No text content"}</p>
+          <p>This email was received via Away Home.</p>
         `,
       }),
     });
 
-    return new Response("Email received", { status: 200 });
+
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Away Home <noreply@awayhomehq.com>",
+        to: from,
+        subject: "We received your message",
+        html: `
+          <p>Hi,</p>
+          <p>Thanks for contacting Away Home. We've received your message and will get back to you shortly.</p>
+          <p>— Away Home Team</p>
+        `,
+      }),
+    });
+
+    return new Response("OK", { status: 200 });
 
   } catch (error) {
-    console.error("INBOUND ERROR:", error);
+    console.error("ERROR:", error);
     return new Response("Server error", { status: 500 });
   }
 }
