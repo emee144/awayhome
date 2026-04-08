@@ -60,6 +60,27 @@ export async function POST(req) {
       }),
     });
 
+    // ✅ Forward to your Gmail
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Away Home <noreply@awayhomehq.com>",
+        to: "anuemmanuela1@gmail.com",
+        subject: `New email from ${email.from}: ${email.subject}`,
+        html: `
+          <p><strong>From:</strong> ${email.from}</p>
+          <p><strong>To:</strong> ${toAddress}</p>
+          <p><strong>Subject:</strong> ${email.subject}</p>
+          <hr/>
+          <p>${email.text || "No text content"}</p>
+        `,
+      }),
+    });
+
     return new Response("Email received", { status: 200 });
 
   } catch (error) {
