@@ -3,12 +3,10 @@ import { connectDB } from "@/lib/mongodb";
 import Listing from "@/models/Listing";
 import { getCurrentUser } from "@/lib/auth";
 
-// ─── GET /api/listings ────────────────────────────────────────────────────────
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    // ── 1. Parse query params ─────────────────────────────────────────────────
     const type      = searchParams.get("type")    || null;  
     const state     = searchParams.get("state")   || null;
     const city      = searchParams.get("city")    || null;
@@ -22,8 +20,8 @@ export async function GET(request) {
     const sortBy    = searchParams.get("sortBy")  || "createdAt"; 
     const sortOrder = searchParams.get("sortOrder")=== "asc" ? 1 : -1;
 
-    // ── 2. Build query ────────────────────────────────────────────────────────
-    const query = { status: "active" }; // only show published listings
+  
+    const query = { status: "active" };
 
     if (type)  query.type = type;
     if (state) query["location.state"] = { $regex: new RegExp(`^${state}$`, "i") };
@@ -56,15 +54,14 @@ export async function GET(request) {
   }
 
   query[priceField] = {};
-  if (minPrice) query[priceField].$gte = parseFloat(minPrice);
-  if (maxPrice) query[priceField].$lte = parseFloat(maxPrice);
+if (minPrice) query[priceField].$gte = Math.round(parseFloat(minPrice));
+if (maxPrice) query[priceField].$lte = Math.round(parseFloat(maxPrice));
 }
 
     if (bedrooms) {
       query.bedrooms = parseInt(bedrooms, 10);
     }
 
-    // ── 3. Sort map ───────────────────────────────────────────────────────────
    const allowedSortFields = [
   "createdAt",
   "price",
@@ -76,7 +73,6 @@ export async function GET(request) {
     const safeSortField = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
     const sort = { [safeSortField]: sortOrder };
 
-    // ── 4. Connect & query ────────────────────────────────────────────────────
     await connectDB();
 
     const skip  = (page - 1) * limit;
@@ -90,6 +86,15 @@ export async function GET(request) {
         "type title images location pricePerNight price starRating pricePerMonth pricePerYear bedrooms bathrooms propertyType description createdAt amenities contact"
       )
       .lean();
+
+   const roundedListings = listings.map((l) => ({
+  ...l,
+  price:         l.price         != null ? Math.round(l.price)         : null,
+  pricePerNight: l.pricePerNight != null ? Math.round(l.pricePerNight) : null,
+  pricePerYear:  l.pricePerYear  != null ? Math.round(l.pricePerYear)  : null,
+  pricePerMonth: l.pricePerMonth != null ? Math.round(l.pricePerMonth) : null,
+  pricePerWeek:  l.pricePerWeek  != null ? Math.round(l.pricePerWeek)  : null,
+}));
  
     return NextResponse.json({
       listings,
@@ -110,7 +115,7 @@ export async function GET(request) {
     );
   }
 }
-// ─── Constants ─────────────────────────────────────────
+
 const VALID_TYPES = ["hotel", "shortlet", "sale", "rent"];
 const MAX_IMAGES = 4;
 const CLOUDINARY_DOMAIN = "res.cloudinary.com";
@@ -118,7 +123,6 @@ const CLOUDINARY_DOMAIN = "res.cloudinary.com";
 const PHONE_REGEX = /^(\+234|0)[789][01]\d{8}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// ─── Helpers ───────────────────────────────────────────
 function validateRequired(obj, fields) {
   return fields.filter((f) => !obj[f] || String(obj[f]).trim() === "");
 }
@@ -227,7 +231,9 @@ function buildListingData(type, body, images, userId) {
       title: body.hotelName.trim(),
       starRating: body.starRating,
       totalRooms: parseInt(body.totalRooms, 10),
-      pricePerNight: parseFloat(body.pricePerNight),
+      pricePerNight: body.pricePerNight 
+  ? Math.round(Number(body.pricePerNight))
+  : null,
       description: body.description.trim(),
     };
   }
@@ -239,8 +245,12 @@ function buildListingData(type, body, images, userId) {
       bedrooms: parseInt(body.bedrooms, 10) || 1,
       bathrooms: parseInt(body.bathrooms, 10) || 1,
       toilets: parseInt(body.toilets, 10) || 1,
-      pricePerNight: parseFloat(body.pricePerNight),
-      pricePerWeek: body.pricePerWeek ? parseFloat(body.pricePerWeek) : null,
+      pricePerNight: body.pricePerNight 
+  ? Math.round(Number(body.pricePerNight))
+  : null,
+      pricePerWeek: body.pricePerWeek 
+  ? Math.round(Number(body.pricePerWeek))
+  : null,
       minNights: parseInt(body.minNights, 10) || 1,
       description: body.description.trim(),
     };
@@ -254,7 +264,7 @@ function buildListingData(type, body, images, userId) {
       bedrooms: parseInt(body.bedrooms, 10) || 0,
       bathrooms: parseInt(body.bathrooms, 10) || 0,
       toilets: parseInt(body.toilets, 10) || 0,
-      price: body.price ? parseFloat(body.price) : null,
+      price: body.price ? Math.round(Number(body.price)) : null,
       negotiable: Boolean(body.negotiable),
       description: body.description.trim(),
       agencyName: body.agencyName?.trim() || null,
@@ -269,8 +279,12 @@ function buildListingData(type, body, images, userId) {
       bedrooms: parseInt(body.bedrooms, 10) || 0,
       bathrooms: parseInt(body.bathrooms, 10) || 0,
       toilets: parseInt(body.toilets, 10) || 0,
-      pricePerYear: body.pricePerYear ? parseFloat(body.pricePerYear) : null,
-      pricePerMonth: body.pricePerMonth ? parseFloat(body.pricePerMonth) : null,
+     pricePerYear: body.pricePerYear 
+  ? Math.round(Number(body.pricePerYear)) 
+  : null,
+      pricePerMonth: body.pricePerMonth 
+  ? Math.round(Number(body.pricePerMonth))
+  : null,
       negotiable: Boolean(body.negotiable),
       description: body.description.trim(),
       agencyName: body.agencyName?.trim() || null,

@@ -1,4 +1,9 @@
 import mongoose from "mongoose";
+const roundedNumber = {
+  type: Number,
+  default: null,
+  set: (v) => (v == null ? null : Math.round(Number(v))),
+};
 
 const ListingSchema = new mongoose.Schema(
   {
@@ -20,7 +25,7 @@ const ListingSchema = new mongoose.Schema(
     featured: { type: Boolean, default: false },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
 
-    // ── Images (Cloudinary URLs) ───────────────────────────────────────────────
+   
     images: {
       type: [String],
       required: true,
