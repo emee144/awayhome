@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const roundedNumber = {
   type: Number,
   default: null,
@@ -25,7 +26,6 @@ const ListingSchema = new mongoose.Schema(
     featured: { type: Boolean, default: false },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
 
-   
     images: {
       type: [String],
       required: true,
@@ -50,68 +50,61 @@ const ListingSchema = new mongoose.Schema(
       website: { type: String, trim: true, default: null },
     },
 
-    // ── Amenities (shared) ────────────────────────────────────────────────────
+    // ── Amenities ─────────────────────────────────────────────────────────────
     amenities: { type: [String], default: [] },
 
-    // ── Hotel-shortlet-specific ────────────────────────────────────────────────────────
-    starRating:    { type: String, default: null },
-    totalRooms:    { type: Number, default: null },
+    // ── Hotel / Shortlet ──────────────────────────────────────────────────────
+    starRating: { type: String, default: null },
+    totalRooms: { type: Number, default: null },
     pricePerNight: {
-  type: Number,
-  default: null,
-  required: [
-    function () {
-      return this.type === "hotel" || this.type === "shortlet";
+      ...roundedNumber, 
+      required: [
+        function () { return this.type === "hotel" || this.type === "shortlet"; },
+        "pricePerNight is required for hotel or shortlet listings",
+      ],
     },
-    "pricePerNight is required for hotel or shortlet listings",
-  ],
-},
 
     // ── Shortlet-specific ─────────────────────────────────────────────────────
-    pricePerWeek: { type: Number, default: null },
+    pricePerWeek: { ...roundedNumber },  
     minNights:    { type: Number, default: 1 },
 
-    // ── Rooms (shortlet + sale) ───────────────────────────────────────────────
+    // ── Rooms ─────────────────────────────────────────────────────────────────
     bedrooms:  { type: Number, default: null },
     bathrooms: { type: Number, default: null },
     toilets:   { type: Number, default: null },
 
-    // ── Sale-or-rent-specific ─────────────────────────────────────────────────────────
-   propertyType: {
-  type: String,
-  default: null,
-  required: function () {
-    return this.type === "sale" || this.type === "rent";
-  },
-},
+    // ── Sale / Rent ───────────────────────────────────────────────────────────
+    propertyType: {
+      type: String,
+      default: null,
+      required: function () { return this.type === "sale" || this.type === "rent"; },
+    },
     price: {
-  type: Number,
-  default: null,
-  required: function () {
-    return this.type === "sale";
-  },
-},
-    negotiable:   { type: Boolean, default: false },
-    landSize:     { type: Number, default: null },
-    landUnit:     { type: String, default: "sqm" },
-    agencyName:   { type: String, default: null },
+      ...roundedNumber, 
+      required: [
+        function () { return this.type === "sale"; },
+        "price is required for sale listings",
+      ],
+    },
+    negotiable: { type: Boolean, default: false },
+    landSize:   { type: Number, default: null },
+    landUnit:   { type: String, default: "sqm" },
+    agencyName: { type: String, default: null },
 
-    // ── Rent-specific ────────────────────────────────────────────────────────────
-pricePerYear: {
-  type: Number,
-  default: null,
-  required: function () {
-    return this.type === "rent";
+    // ── Rent-specific ─────────────────────────────────────────────────────────
+    pricePerYear: {
+      ...roundedNumber,
+      required: [
+        function () { return this.type === "rent"; },
+        "pricePerYear is required for rent listings",
+      ],
+    },
+    pricePerMonth: { ...roundedNumber },  
   },
-},
-pricePerMonth: { type: Number, default: null },
-  },
-  {
-    timestamps: true, // adds createdAt + updatedAt
-  }
+  { timestamps: true }
 );
 
-// ── Indexes for common queries ─────────────────────────────────────────────────
+// ── Indexes ───────────────────────────────────────────────────────────────────
 ListingSchema.index({ type: 1, status: 1 });
 ListingSchema.index({ "location.state": 1 });
 ListingSchema.index({ "location.city": 1 });
@@ -120,44 +113,24 @@ ListingSchema.index({ pricePerNight: 1 });
 ListingSchema.index({ featured: -1, createdAt: -1 });
 ListingSchema.index({ pricePerYear: 1 });
 ListingSchema.index({ pricePerMonth: 1 });
+
+// ── Pre-save hooks ────────────────────────────────────────────────────────────
 ListingSchema.pre("save", function () {
-  if (this.type !== "sale") {
-    this.price = null;
-  }
-
-  if (this.type !== "rent") {
-    this.pricePerYear = null;
-    this.pricePerMonth = null;
-  }
-
-  if (this.type !== "hotel" && this.type !== "shortlet") {
-    this.pricePerNight = null;
-  }
+  if (this.type !== "sale")                              this.price = null;
+  if (this.type !== "rent")   { this.pricePerYear = null; this.pricePerMonth = null; }
+  if (this.type !== "hotel" && this.type !== "shortlet") this.pricePerNight = null;
 });
+
 ListingSchema.pre("findOneAndUpdate", function () {
   const update = this.getUpdate();
   if (!update) return;
-
-  // Handle both $set and direct updates
   const data = update.$set || update;
   const type = data.type;
-
   if (type) {
-    if (type !== "sale") {
-      data.price = null;
-    }
-
-    if (type !== "rent") {
-      data.pricePerYear = null;
-      data.pricePerMonth = null;
-    }
-
-    if (type !== "hotel" && type !== "shortlet") {
-      data.pricePerNight = null;
-    }
+    if (type !== "sale")                             data.price = null;
+    if (type !== "rent") { data.pricePerYear = null; data.pricePerMonth = null; }
+    if (type !== "hotel" && type !== "shortlet")     data.pricePerNight = null;
   }
-
-
   this.setOptions({ runValidators: true });
 });
 

@@ -1244,32 +1244,40 @@ export default function ListPropertyPage() {
   }
 
   async function handleSubmit({ type, form, images }) {
-    setSubmitting(true);
-    setError("");
-    try {
- 
-      const imageUrls = await Promise.all(images.map((img) => uploadToCloudinary(img.file)));
+  setSubmitting(true);
+  setError("");
+  try {
+    const imageUrls = await Promise.all(images.map((img) => uploadToCloudinary(img.file)));
 
-      // Send to API
-      const res = await fetch("/api/listings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-  type,
-  ...form,
-  website: normalizeWebsite(form.website), 
-  images: imageUrls,
-}),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Submission failed");
-      setSuccess(true);
-    } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+    // Sanitize all price fields — parse as integers before sending
+    const sanitizedForm = {
+      ...form,
+      price:         form.price         ? parseInt(form.price, 10)         : undefined,
+      pricePerNight: form.pricePerNight ? parseInt(form.pricePerNight, 10) : undefined,
+      pricePerYear:  form.pricePerYear  ? parseInt(form.pricePerYear, 10)  : undefined,
+      pricePerMonth: form.pricePerMonth ? parseInt(form.pricePerMonth, 10) : undefined,
+      pricePerWeek:  form.pricePerWeek  ? parseInt(form.pricePerWeek, 10)  : undefined,
+    };
+
+    const res = await fetch("/api/listings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type,
+        ...sanitizedForm,
+        website: normalizeWebsite(form.website),
+        images: imageUrls,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Submission failed");
+    setSuccess(true);
+  } catch (err) {
+    setError(err.message || "Something went wrong. Please try again.");
+  } finally {
+    setSubmitting(false);
   }
+}
 
   return (
     <>
